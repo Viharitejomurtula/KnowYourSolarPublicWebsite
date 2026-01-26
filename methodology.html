@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodology & Assumptions - KnowYourSolar</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <div class="logo">KnowYourSolar</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="independence.html">Independence Charter</a></li>
+                    <li><a href="methodology.html">Methodology</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Methodology & Assumptions</h1>
+                <p>How we produce solar feasibility estimates and the assumptions we use.</p>
+            </div>
+        </section>
+
+        <section class="page-content">
+            <div class="container">
+                <div class="methodology-version">
+                    <strong>Methodology Version:</strong> 1.2<br>
+                    <strong>Last Updated:</strong> January 2026<br>
+                    <strong>Geographic Calibration:</strong> Santa Cruz County, CA
+                </div>
+
+                <h2>Inputs used</h2>
+                <p>Each assessment combines the following data sources:</p>
+                <ul>
+                    <li><strong>Property address:</strong> Used to determine roof orientation, local climate zone, and applicable utility rates</li>
+                    <li><strong>Roof photographs:</strong> Analyzed to extract roof pitch, identify shading from trees or structures, and estimate usable roof area</li>
+                    <li><strong>NREL PVWatts database:</strong> Historical solar irradiance data and weather patterns for the property location</li>
+                    <li><strong>Utility rate structures:</strong> Current rates and net metering policies from PG&E for Santa Cruz County</li>
+                    <li><strong>Regional cost data:</strong> Recent installation cost averages from Santa Cruz and Monterey Bay area installers</li>
+                </ul>
+
+                <h2>Outputs provided</h2>
+                <p>Each report includes:</p>
+                <ul>
+                    <li><strong>Annual production estimate:</strong> Expected kilowatt-hours generated per year based on roof characteristics and local climate</li>
+                    <li><strong>Savings range:</strong> Estimated annual electricity cost reduction, presented as a range to reflect uncertainty</li>
+                    <li><strong>Payback period:</strong> Years until cumulative savings offset installation cost, under current utility rates</li>
+                    <li><strong>Environmental impact:</strong> Estimated CO2 offset in pounds per year</li>
+                    <li><strong>Feasibility recommendation:</strong> Clear statement of whether solar appears economically viable for the property</li>
+                </ul>
+
+                <h2>Standard assumptions</h2>
+                <p>Unless property-specific data suggests otherwise, we apply the following baseline assumptions:</p>
+
+                <table class="assumption-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Assumption</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>System size</td>
+                            <td>Based on available roof area, typically 4-8 kW for residential</td>
+                            <td>Limited by usable south/west-facing area</td>
+                        </tr>
+                        <tr>
+                            <td>Panel efficiency</td>
+                            <td>19-21% (current standard panels)</td>
+                            <td>Conservative estimate using proven technology</td>
+                        </tr>
+                        <tr>
+                            <td>System losses</td>
+                            <td>14% total (inverter, wiring, soiling, temperature)</td>
+                            <td>Based on PVWatts default loss assumptions</td>
+                        </tr>
+                        <tr>
+                            <td>Annual degradation</td>
+                            <td>0.5% per year</td>
+                            <td>Industry standard for modern panels</td>
+                        </tr>
+                        <tr>
+                            <td>System lifespan</td>
+                            <td>25 years</td>
+                            <td>Typical manufacturer warranty period</td>
+                        </tr>
+                        <tr>
+                            <td>Installation cost</td>
+                            <td>$2.80-$3.20 per watt before incentives</td>
+                            <td>Santa Cruz County average, 2024-2025</td>
+                        </tr>
+                        <tr>
+                            <td>Federal tax credit</td>
+                            <td>30% (current ITC)</td>
+                            <td>Subject to legislative changes</td>
+                        </tr>
+                        <tr>
+                            <td>Utility rate escalation</td>
+                            <td>3% annually</td>
+                            <td>Conservative estimate based on PG&E historical trends</td>
+                        </tr>
+                        <tr>
+                            <td>Net metering</td>
+                            <td>Full retail credit (NEM 2.0 grandfathered or NEM 3.0)</td>
+                            <td>Depends on utility interconnection date</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Analysis process</h2>
+                <ol>
+                    <li><strong>Roof assessment:</strong> Computer vision analysis extracts pitch angle and identifies shading obstacles from submitted photographs</li>
+                    <li><strong>Orientation determination:</strong> Address geocoding determines roof azimuth and confirms findings from image analysis</li>
+                    <li><strong>Production modeling:</strong> Data inputs feed into NREL PVWatts model adjusted for property-specific factors</li>
+                    <li><strong>Economic calculation:</strong> Production estimates combined with utility rates and installation costs to project savings</li>
+                    <li><strong>Feasibility assessment:</strong> Results evaluated against minimum viability thresholds (payback period, production levels, cost-benefit ratio)</li>
+                </ol>
+
+                <h2>What could affect accuracy</h2>
+                <p>Estimates may differ from actual outcomes due to:</p>
+                <ul>
+                    <li>Roof structural factors not visible in photographs (age, need for reinforcement)</li>
+                    <li>Local permitting costs or requirements beyond typical ranges</li>
+                    <li>Actual electricity usage patterns differing from assumptions</li>
+                    <li>Changes in utility rate structures or net metering policies</li>
+                    <li>Installation cost variations based on specific contractor and complexity</li>
+                    <li>Weather patterns deviating from historical averages</li>
+                    <li>Equipment performance varying from manufacturer specifications</li>
+                </ul>
+
+                <h2>Sources and standards</h2>
+                <p>Production modeling based on:</p>
+                <ul>
+                    <li>NREL PVWatts Calculator (version 8)</li>
+                    <li>National Solar Radiation Database (NSRDB)</li>
+                    <li>PG&E published rate schedules and net metering tariffs</li>
+                </ul>
+
+                <p>Cost data derived from:</p>
+                <ul>
+                    <li>California Solar & Storage Association installer surveys</li>
+                    <li>EnergySage marketplace data for Santa Cruz County</li>
+                    <li>Local installer quotes (anonymized)</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>KnowYourSolar | Independent solar feasibility assessment</p>
+            <p class="version">Site v0.3 | Methodology last updated: January 2026</p>
+            <p class="footer-links">
+                <a href="independence.html">Independence Charter</a> | 
+                <a href="methodology.html">Methodology</a> | 
+                <a href="privacy.html">Privacy</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
