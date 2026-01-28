@@ -69,302 +69,182 @@
             <div class="container">
                 <h2>How estimates are produced</h2>
                 
-                <div class="estimation-walkthrough">
-                    <div class="slide-container">
-                        <!-- Slide 1 -->
-                        <div class="slide active" data-slide="1">
-                            <div class="slide-content">
-                                <h3>Your home, not a template</h3>
-                                <div class="slide-visual">
-                                    <svg viewBox="0 0 200 180" class="house-diagram">
-                                        <!-- House outline -->
-                                        <path d="M 20 100 L 100 40 L 180 100 L 180 160 L 20 160 Z" 
-                                              fill="none" stroke="#2c5f2d" stroke-width="2"/>
-                                        <!-- Roof -->
-                                        <path d="M 20 100 L 100 40 L 180 100 L 160 100 L 100 55 L 40 100 Z" 
-                                              fill="#f0fdf4" stroke="#2c5f2d" stroke-width="2"/>
-                                        <!-- Shading areas -->
-                                        <ellipse cx="150" cy="70" rx="25" ry="35" 
-                                                 fill="rgba(44, 95, 45, 0.15)" class="shading-area tree-shade"/>
-                                        <rect x="60" y="80" width="40" height="20" 
-                                              fill="rgba(217, 119, 6, 0.15)" class="shading-area roof-angle"/>
-                                        <!-- Upload icon -->
-                                        <g class="upload-icon" transform="translate(85, 110)">
-                                            <rect x="0" y="8" width="30" height="20" rx="2" 
-                                                  fill="white" stroke="#d97706" stroke-width="1.5"/>
-                                            <path d="M 10 18 L 15 13 L 20 18" fill="none" 
-                                                  stroke="#d97706" stroke-width="1.5"/>
-                                            <line x1="15" y1="13" x2="15" y2="24" 
-                                                  stroke="#d97706" stroke-width="1.5"/>
-                                        </g>
+                <div class="methodology-slideshow">
+                    <div class="methodology-slide-container">
+                        <!-- Slide 1: Roof Analysis -->
+                        <div class="methodology-slide active" data-slide="1">
+                            <div class="methodology-card">
+                                <div class="card-icon">
+                                    <svg viewBox="0 0 80 80" width="80" height="80">
+                                        <path d="M 10 45 L 40 20 L 70 45 L 70 65 L 10 65 Z" 
+                                              fill="none" stroke="#2c5f2d" stroke-width="2.5"/>
+                                        <path d="M 10 45 L 40 20 L 70 45 L 60 45 L 40 28 L 20 45 Z" 
+                                              fill="#f0fdf4" stroke="#2c5f2d" stroke-width="2.5"/>
                                     </svg>
                                 </div>
-                                <div class="slide-body">
-                                    <p>We start by looking at your actual roof—not an average home or a best-case example.</p>
-                                    <p>From roof photos, we estimate:</p>
-                                    <ul>
-                                        <li>Roof slope and direction</li>
-                                        <li>Shading from trees or nearby structures</li>
-                                        <li>Usable space for solar panels</li>
-                                    </ul>
-                                </div>
-                                <p class="slide-microcopy">No site visit required. We analyze what's visible and measurable.</p>
+                                <h3>Roof Photo Analysis</h3>
+                                <p>We analyze roof photos to extract pitch and shading factors. This provides accurate data on your roof's orientation and any obstacles that might reduce solar production.</p>
                             </div>
                         </div>
 
-                        <!-- Slide 2 -->
-                        <div class="slide" data-slide="2">
-                            <div class="slide-content">
-                                <h3>Local sunlight matters</h3>
-                                <div class="slide-visual">
-                                    <svg viewBox="0 0 200 180" class="sun-diagram">
-                                        <!-- Map pin -->
-                                        <g transform="translate(100, 90)">
-                                            <circle cx="0" cy="0" r="8" fill="#d97706"/>
-                                            <path d="M 0 8 Q 0 20, 0 25" stroke="#d97706" 
-                                                  stroke-width="2" fill="none"/>
-                                        </g>
-                                        <!-- Sun path arc (summer) -->
-                                        <path class="sun-path summer-path active-path" 
-                                              d="M 30 140 Q 100 40, 170 140" 
-                                              fill="none" stroke="#d97706" stroke-width="2" 
-                                              stroke-dasharray="4,3" opacity="0.8"/>
-                                        <!-- Sun path arc (winter) -->
-                                        <path class="sun-path winter-path" 
-                                              d="M 40 150 Q 100 80, 160 150" 
-                                              fill="none" stroke="#6b7280" stroke-width="2" 
-                                              stroke-dasharray="4,3" opacity="0"/>
-                                        <!-- Sun icon -->
-                                        <circle class="sun-icon" cx="100" cy="60" r="12" 
-                                                fill="#fbbf24"/>
-                                        <g class="sun-rays" transform="translate(100, 60)">
+                        <!-- Slide 2: Location Data -->
+                        <div class="methodology-slide" data-slide="2">
+                            <div class="methodology-card">
+                                <div class="card-icon">
+                                    <svg viewBox="0 0 80 80" width="80" height="80">
+                                        <circle cx="40" cy="35" r="8" fill="none" stroke="#d97706" stroke-width="2.5"/>
+                                        <path d="M 40 43 Q 40 55, 40 60" stroke="#d97706" stroke-width="2.5" fill="none"/>
+                                        <circle cx="40" cy="35" r="3" fill="#d97706"/>
+                                    </svg>
+                                </div>
+                                <h3>Location & Climate Data</h3>
+                                <p>We combine this with your address to determine orientation and local climate data from NREL PVWatts. This ensures production estimates reflect your actual location's sunlight patterns.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3: System Sizing -->
+                        <div class="methodology-slide" data-slide="3">
+                            <div class="methodology-card">
+                                <div class="card-icon">
+                                    <svg viewBox="0 0 80 80" width="80" height="80">
+                                        <rect x="15" y="25" width="50" height="30" fill="#f0fdf4" stroke="#2c5f2d" stroke-width="2" rx="2"/>
+                                        <rect x="20" y="30" width="10" height="15" fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1"/>
+                                        <rect x="32" y="30" width="10" height="15" fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1"/>
+                                        <rect x="44" y="30" width="10" height="15" fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1"/>
+                                    </svg>
+                                </div>
+                                <h3>System Sizing</h3>
+                                <p>Standard system sizing assumptions are applied based on available roof area and estimated usage. We determine a realistic system size that fits your property constraints.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 4: Production Estimates -->
+                        <div class="methodology-slide" data-slide="4">
+                            <div class="methodology-card">
+                                <div class="card-icon">
+                                    <svg viewBox="0 0 80 80" width="80" height="80">
+                                        <circle cx="40" cy="35" r="12" fill="#fbbf24"/>
+                                        <g transform="translate(40, 35)">
                                             <line x1="0" y1="-20" x2="0" y2="-16" stroke="#fbbf24" stroke-width="2"/>
                                             <line x1="14" y1="-14" x2="11" y2="-11" stroke="#fbbf24" stroke-width="2"/>
                                             <line x1="20" y1="0" x2="16" y2="0" stroke="#fbbf24" stroke-width="2"/>
                                             <line x1="14" y1="14" x2="11" y2="11" stroke="#fbbf24" stroke-width="2"/>
+                                            <line x1="0" y1="20" x2="0" y2="16" stroke="#fbbf24" stroke-width="2"/>
+                                            <line x1="-14" y1="14" x2="-11" y2="11" stroke="#fbbf24" stroke-width="2"/>
+                                            <line x1="-20" y1="0" x2="-16" y2="0" stroke="#fbbf24" stroke-width="2"/>
+                                            <line x1="-14" y1="-14" x2="-11" y2="-11" stroke="#fbbf24" stroke-width="2"/>
                                         </g>
-                                        <!-- Neighborhood -->
-                                        <rect x="70" y="100" width="15" height="20" fill="#e5e7eb"/>
-                                        <rect x="115" y="100" width="15" height="20" fill="#e5e7eb"/>
                                     </svg>
                                 </div>
-                                <div class="slide-body">
-                                    <p>Your address tells us how much sunlight your area actually receives over time.</p>
-                                    <p>We use long-term weather and sunlight data from the U.S. National Renewable Energy Laboratory (NREL).</p>
-                                    <div class="season-toggle">
-                                        <button class="season-btn active" data-season="summer">Summer</button>
-                                        <button class="season-btn" data-season="winter">Winter</button>
-                                    </div>
-                                </div>
-                                <p class="slide-microcopy">This reflects historical averages—not optimistic projections.</p>
+                                <h3>Production Modeling</h3>
+                                <p>Production estimates use historical weather data for your location. This provides realistic annual output expectations based on actual climate patterns, not best-case scenarios.</p>
                             </div>
                         </div>
 
-                        <!-- Slide 3 -->
-                        <div class="slide" data-slide="3">
-                            <div class="slide-content">
-                                <h3>A realistic system size</h3>
-                                <div class="slide-visual">
-                                    <svg viewBox="0 0 200 180" class="panel-diagram">
-                                        <!-- Roof outline -->
-                                        <rect x="30" y="40" width="140" height="100" 
-                                              fill="#f0fdf4" stroke="#2c5f2d" stroke-width="2" rx="4"/>
-                                        <!-- Solar panels (conservative placement) -->
-                                        <rect x="45" y="55" width="25" height="35" 
-                                              fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1" rx="2"/>
-                                        <rect x="75" y="55" width="25" height="35" 
-                                              fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1" rx="2"/>
-                                        <rect x="105" y="55" width="25" height="35" 
-                                              fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1" rx="2"/>
-                                        <rect x="45" y="95" width="25" height="35" 
-                                              fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1" rx="2"/>
-                                        <rect x="75" y="95" width="25" height="35" 
-                                              fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1" rx="2"/>
-                                        <rect x="105" y="95" width="25" height="35" 
-                                              fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1" rx="2"/>
-                                        <!-- Empty space indicator -->
-                                        <text x="150" y="100" font-size="10" fill="#6b7280" 
-                                              font-style="italic">Empty space</text>
+                        <!-- Slide 5: Cost Analysis -->
+                        <div class="methodology-slide" data-slide="5">
+                            <div class="methodology-card">
+                                <div class="card-icon">
+                                    <svg viewBox="0 0 80 80" width="80" height="80">
+                                        <text x="40" y="50" font-size="36" fill="#2c5f2d" text-anchor="middle" font-weight="600">$</text>
                                     </svg>
                                 </div>
-                                <div class="slide-body">
-                                    <p>Not every roof can support a large system—and that's okay.</p>
-                                    <p>We estimate:</p>
-                                    <ul>
-                                        <li>How many panels your roof can reasonably support</li>
-                                        <li>A system size that avoids overpromising production</li>
-                                    </ul>
-                                </div>
-                                <p class="slide-microcopy">We don't assume full roof coverage or ideal layouts.</p>
+                                <h3>Cost & Savings</h3>
+                                <p>Cost assumptions are based on recent regional installation averages. Savings calculations account for utility rate structures and net metering policies in your area.</p>
                             </div>
                         </div>
 
-                        <!-- Slide 4 -->
-                        <div class="slide" data-slide="4">
-                            <div class="slide-content">
-                                <h3>Costs and savings, locally grounded</h3>
-                                <div class="slide-visual">
-                                    <svg viewBox="0 0 200 180" class="cost-diagram">
-                                        <!-- Dollar sign -->
-                                        <text x="60" y="90" font-size="48" fill="#2c5f2d" 
-                                              font-weight="600">$</text>
-                                        <!-- Arrow -->
-                                        <path d="M 110 80 L 140 80" stroke="#d97706" 
-                                              stroke-width="3" marker-end="url(#arrowhead)"/>
-                                        <defs>
-                                            <marker id="arrowhead" markerWidth="10" markerHeight="10" 
-                                                    refX="9" refY="3" orient="auto">
-                                                <polygon points="0 0, 10 3, 0 6" fill="#d97706"/>
-                                            </marker>
-                                        </defs>
-                                        <!-- Utility bill icon -->
-                                        <rect x="145" y="60" width="35" height="45" 
-                                              fill="white" stroke="#2c5f2d" stroke-width="2" rx="2"/>
-                                        <line x1="150" y1="70" x2="175" y2="70" 
-                                              stroke="#6b7280" stroke-width="1.5"/>
-                                        <line x1="150" y1="78" x2="175" y2="78" 
-                                              stroke="#6b7280" stroke-width="1.5"/>
-                                        <line x1="150" y1="86" x2="170" y2="86" 
-                                              stroke="#6b7280" stroke-width="1.5"/>
-                                        <!-- Range indicator -->
-                                        <rect x="50" y="130" width="100" height="12" 
-                                              fill="#f0fdf4" stroke="#2c5f2d" stroke-width="1" rx="6"/>
-                                        <rect x="60" y="132" width="60" height="8" 
-                                              fill="#2c5f2d" rx="4"/>
+                        <!-- Slide 6: Geographic Calibration -->
+                        <div class="methodology-slide" data-slide="6">
+                            <div class="methodology-card">
+                                <div class="card-icon">
+                                    <svg viewBox="0 0 80 80" width="80" height="80">
+                                        <circle cx="40" cy="40" r="25" fill="none" stroke="#2c5f2d" stroke-width="2"/>
+                                        <path d="M 40 15 Q 50 40, 40 65 Q 30 40, 40 15" fill="none" stroke="#2c5f2d" stroke-width="1.5"/>
+                                        <path d="M 15 40 Q 40 30, 65 40 Q 40 50, 15 40" fill="none" stroke="#2c5f2d" stroke-width="1.5"/>
                                     </svg>
                                 </div>
-                                <div class="slide-body">
-                                    <p>We combine your estimated production with:</p>
-                                    <ul>
-                                        <li>Recent installation costs in your region</li>
-                                        <li>Your utility's rate structure</li>
-                                        <li>Net metering policies where applicable</li>
-                                    </ul>
-                                    <p>This produces a range of possible outcomes, not a single number.</p>
-                                </div>
-                                <p class="slide-microcopy">Actual quotes can vary by installer and roof complexity.</p>
-                            </div>
-                        </div>
-
-                        <!-- Slide 5 -->
-                        <div class="slide" data-slide="5">
-                            <div class="slide-content">
-                                <h3>A clear recommendation</h3>
-                                <div class="slide-visual">
-                                    <div class="recommendation-cards">
-                                        <div class="rec-card">
-                                            <div class="rec-title">Not Recommended</div>
-                                            <div class="rec-reason">Shading reduces production below economic viability</div>
-                                        </div>
-                                        <div class="rec-card highlighted">
-                                            <div class="rec-title">Moderately Recommended</div>
-                                            <div class="rec-reason">System will pay back in 12-15 years under current rates</div>
-                                        </div>
-                                        <div class="rec-card">
-                                            <div class="rec-title">Recommended</div>
-                                            <div class="rec-reason">Strong production with 7-9 year payback period</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="slide-body">
-                                    <p>Based on all inputs, we provide a clear recommendation—and explain it.</p>
-                                    <p>Sometimes that means:</p>
-                                    <ul>
-                                        <li>Solar makes sense</li>
-                                        <li>Solar may work, but payback is long</li>
-                                        <li>Solar isn't worth it for your home</li>
-                                    </ul>
-                                </div>
-                                <p class="slide-microcopy">We don't sell systems or earn commissions—only assessments.</p>
+                                <h3>Currently Calibrated</h3>
+                                <p>Currently calibrated for Santa Cruz, CA. All cost data, utility rates, and regional assumptions are specific to this area.</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Navigation controls -->
-                    <div class="slide-controls">
-                        <button class="slide-nav-btn prev-btn" disabled>← Back</button>
-                        <div class="progress-dots">
-                            <span class="dot active" data-slide="1"></span>
-                            <span class="dot" data-slide="2"></span>
-                            <span class="dot" data-slide="3"></span>
-                            <span class="dot" data-slide="4"></span>
-                            <span class="dot" data-slide="5"></span>
+                    <div class="methodology-controls">
+                        <button class="methodology-nav-btn prev-methodology" disabled>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M12 16 L6 10 L12 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Previous
+                        </button>
+                        <div class="methodology-progress">
+                            <span class="methodology-dot active" data-slide="1"></span>
+                            <span class="methodology-dot" data-slide="2"></span>
+                            <span class="methodology-dot" data-slide="3"></span>
+                            <span class="methodology-dot" data-slide="4"></span>
+                            <span class="methodology-dot" data-slide="5"></span>
+                            <span class="methodology-dot" data-slide="6"></span>
                         </div>
-                        <button class="slide-nav-btn next-btn">Next →</button>
+                        <button class="methodology-nav-btn next-methodology">
+                            Next
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M8 4 L14 10 L8 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
                     </div>
 
-                    <div class="walkthrough-footer">
-                        <p>This process is the same for every home. No adjustments. No sales incentives.</p>
-                        <a href="methodology.html" class="methodology-cta">View full methodology</a>
+                    <div class="methodology-footer">
+                        <a href="methodology.html" class="methodology-link-btn">View full methodology & assumptions</a>
                     </div>
                 </div>
             </div>
         </section>
 
         <script>
-            // Slideshow functionality
-            let currentSlide = 1;
-            const totalSlides = 5;
+            // Methodology slideshow functionality
+            let currentMethodologySlide = 1;
+            const totalMethodologySlides = 6;
 
-            function showSlide(slideNum) {
-                document.querySelectorAll('.slide').forEach(slide => {
+            function showMethodologySlide(slideNum) {
+                document.querySelectorAll('.methodology-slide').forEach(slide => {
                     slide.classList.remove('active');
                 });
-                document.querySelectorAll('.dot').forEach(dot => {
+                document.querySelectorAll('.methodology-dot').forEach(dot => {
                     dot.classList.remove('active');
                 });
 
-                const targetSlide = document.querySelector(`.slide[data-slide="${slideNum}"]`);
-                const targetDot = document.querySelector(`.dot[data-slide="${slideNum}"]`);
+                const targetSlide = document.querySelector(`.methodology-slide[data-slide="${slideNum}"]`);
+                const targetDot = document.querySelector(`.methodology-dot[data-slide="${slideNum}"]`);
                 
                 if (targetSlide) targetSlide.classList.add('active');
                 if (targetDot) targetDot.classList.add('active');
 
                 // Update button states
-                document.querySelector('.prev-btn').disabled = slideNum === 1;
-                document.querySelector('.next-btn').disabled = slideNum === totalSlides;
+                document.querySelector('.prev-methodology').disabled = slideNum === 1;
+                document.querySelector('.next-methodology').disabled = slideNum === totalMethodologySlides;
                 
-                currentSlide = slideNum;
+                currentMethodologySlide = slideNum;
             }
 
             // Navigation buttons
-            document.querySelector('.next-btn').addEventListener('click', () => {
-                if (currentSlide < totalSlides) {
-                    showSlide(currentSlide + 1);
+            document.querySelector('.next-methodology').addEventListener('click', () => {
+                if (currentMethodologySlide < totalMethodologySlides) {
+                    showMethodologySlide(currentMethodologySlide + 1);
                 }
             });
 
-            document.querySelector('.prev-btn').addEventListener('click', () => {
-                if (currentSlide > 1) {
-                    showSlide(currentSlide - 1);
+            document.querySelector('.prev-methodology').addEventListener('click', () => {
+                if (currentMethodologySlide > 1) {
+                    showMethodologySlide(currentMethodologySlide - 1);
                 }
             });
 
             // Progress dots
-            document.querySelectorAll('.dot').forEach(dot => {
+            document.querySelectorAll('.methodology-dot').forEach(dot => {
                 dot.addEventListener('click', (e) => {
                     const slideNum = parseInt(e.target.dataset.slide);
-                    showSlide(slideNum);
-                });
-            });
-
-            // Season toggle (Slide 2)
-            document.querySelectorAll('.season-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.season-btn').forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-                    
-                    const season = e.target.dataset.season;
-                    const summerPath = document.querySelector('.summer-path');
-                    const winterPath = document.querySelector('.winter-path');
-                    
-                    if (season === 'summer') {
-                        summerPath.style.opacity = '0.8';
-                        winterPath.style.opacity = '0';
-                    } else {
-                        summerPath.style.opacity = '0';
-                        winterPath.style.opacity = '0.8';
-                    }
+                    showMethodologySlide(slideNum);
                 });
             });
         </script>
