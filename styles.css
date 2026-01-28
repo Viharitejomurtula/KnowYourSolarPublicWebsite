@@ -741,3 +741,65 @@ footer p {
         font-size: 14px;
     }
 }
+
+/* About page - Creator section */
+.about-creator {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+.creator-image {
+    flex-shrink: 0;
+    width: 280px;
+}
+
+.creator-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+}
+
+.creator-bio {
+    flex: 1;
+}
+
+.creator-bio h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.creator-title {
+    font-size: 18px;
+    color: var(--color-accent);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+.creator-contact {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+}
+
+@media (max-width: 768px) {
+    .about-creator {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .creator-image {
+        width: 200px;
+    }
+
+    .creator-bio h2 {
+        margin-top: 1rem;
+    }
+
+    .creator-bio p {
+        max-width: none;
+    }
+}
