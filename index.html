@@ -13,6 +13,7 @@
                 <div class="logo">KnowYourSolar</div>
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
                     <li><a href="independence.html">Independence Charter</a></li>
                     <li><a href="methodology.html">Methodology</a></li>
                     <li><a href="privacy.html">Privacy</a></li>
@@ -25,7 +26,7 @@
         <section class="hero">
             <div class="container">
                 <h1>Unbiased Solar Assessments for Homeowners</h1>
-                <p class="subtitle">No sales. No commissions. Just a clear, neutral assessment—including when solar isn’t the right choice.</p>
+                <p class="subtitle">No sales. No commissions. Just a clear, neutral assessment—including when solar isn't the right choice.</p>
                 <a href="#methodology-overview" class="cta-button">See how we evaluate</a>
             </div>
         </section>
@@ -64,29 +65,309 @@
             </div>
         </section>
 
-        <section class="alternatives">
-            <div class="container">
-                <h2>Even if Solar isn't right for you</h2>
-                <p>When solar doesn't make financial sense, other energy actions may still be worth looking into. We do not provide these services, but you may want to consider:</p>
-                <ul>
-                    <li>Home energy audit to identify efficiency improvements</li>
-                    <li>Insulation upgrades that reduce heating and cooling costs</li>
-                    <li>LED lighting conversion and smart thermostat installation</li>
-                    <li>Electric vehicle charging rate optimization if applicable</li>
-                    <li>Community solar programs that don't require roof installation</li>
-                </ul>
-            </div>
-        </section>
-        
         <section class="methodology-overview" id="methodology-overview">
             <div class="container">
                 <h2>How estimates are produced</h2>
-                <p>We analyze roof photos to extract pitch and shading factors. We combine this with your address to determine orientation and local climate data from NREL PVWatts. Standard system sizing assumptions are applied based on available roof area and estimated usage.</p>
-                <p>Production estimates use historical weather data for your location. Cost assumptions are based on recent regional installation averages. Savings calculations account for utility rate structures and net metering policies.</p>
-                <p>Currently calibrated for Santa Cruz, CA.</p>
-                <p class="methodology-link">Full details in our <a href="methodology.html">Methodology & Assumptions</a></p>
+                
+                <div class="estimation-walkthrough">
+                    <div class="slide-container">
+                        <!-- Slide 1 -->
+                        <div class="slide active" data-slide="1">
+                            <div class="slide-content">
+                                <h3>Your home, not a template</h3>
+                                <div class="slide-visual">
+                                    <svg viewBox="0 0 200 180" class="house-diagram">
+                                        <!-- House outline -->
+                                        <path d="M 20 100 L 100 40 L 180 100 L 180 160 L 20 160 Z" 
+                                              fill="none" stroke="#2c5f2d" stroke-width="2"/>
+                                        <!-- Roof -->
+                                        <path d="M 20 100 L 100 40 L 180 100 L 160 100 L 100 55 L 40 100 Z" 
+                                              fill="#f0fdf4" stroke="#2c5f2d" stroke-width="2"/>
+                                        <!-- Shading areas -->
+                                        <ellipse cx="150" cy="70" rx="25" ry="35" 
+                                                 fill="rgba(44, 95, 45, 0.15)" class="shading-area tree-shade"/>
+                                        <rect x="60" y="80" width="40" height="20" 
+                                              fill="rgba(217, 119, 6, 0.15)" class="shading-area roof-angle"/>
+                                        <!-- Upload icon -->
+                                        <g class="upload-icon" transform="translate(85, 110)">
+                                            <rect x="0" y="8" width="30" height="20" rx="2" 
+                                                  fill="white" stroke="#d97706" stroke-width="1.5"/>
+                                            <path d="M 10 18 L 15 13 L 20 18" fill="none" 
+                                                  stroke="#d97706" stroke-width="1.5"/>
+                                            <line x1="15" y1="13" x2="15" y2="24" 
+                                                  stroke="#d97706" stroke-width="1.5"/>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="slide-body">
+                                    <p>We start by looking at your actual roof—not an average home or a best-case example.</p>
+                                    <p>From roof photos, we estimate:</p>
+                                    <ul>
+                                        <li>Roof slope and direction</li>
+                                        <li>Shading from trees or nearby structures</li>
+                                        <li>Usable space for solar panels</li>
+                                    </ul>
+                                </div>
+                                <p class="slide-microcopy">No site visit required. We analyze what's visible and measurable.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="slide" data-slide="2">
+                            <div class="slide-content">
+                                <h3>Local sunlight matters</h3>
+                                <div class="slide-visual">
+                                    <svg viewBox="0 0 200 180" class="sun-diagram">
+                                        <!-- Map pin -->
+                                        <g transform="translate(100, 90)">
+                                            <circle cx="0" cy="0" r="8" fill="#d97706"/>
+                                            <path d="M 0 8 Q 0 20, 0 25" stroke="#d97706" 
+                                                  stroke-width="2" fill="none"/>
+                                        </g>
+                                        <!-- Sun path arc (summer) -->
+                                        <path class="sun-path summer-path active-path" 
+                                              d="M 30 140 Q 100 40, 170 140" 
+                                              fill="none" stroke="#d97706" stroke-width="2" 
+                                              stroke-dasharray="4,3" opacity="0.8"/>
+                                        <!-- Sun path arc (winter) -->
+                                        <path class="sun-path winter-path" 
+                                              d="M 40 150 Q 100 80, 160 150" 
+                                              fill="none" stroke="#6b7280" stroke-width="2" 
+                                              stroke-dasharray="4,3" opacity="0"/>
+                                        <!-- Sun icon -->
+                                        <circle class="sun-icon" cx="100" cy="60" r="12" 
+                                                fill="#fbbf24"/>
+                                        <g class="sun-rays" transform="translate(100, 60)">
+                                            <line x1="0" y1="-20" x2="0" y2="-16" stroke="#fbbf24" stroke-width="2"/>
+                                            <line x1="14" y1="-14" x2="11" y2="-11" stroke="#fbbf24" stroke-width="2"/>
+                                            <line x1="20" y1="0" x2="16" y2="0" stroke="#fbbf24" stroke-width="2"/>
+                                            <line x1="14" y1="14" x2="11" y2="11" stroke="#fbbf24" stroke-width="2"/>
+                                        </g>
+                                        <!-- Neighborhood -->
+                                        <rect x="70" y="100" width="15" height="20" fill="#e5e7eb"/>
+                                        <rect x="115" y="100" width="15" height="20" fill="#e5e7eb"/>
+                                    </svg>
+                                </div>
+                                <div class="slide-body">
+                                    <p>Your address tells us how much sunlight your area actually receives over time.</p>
+                                    <p>We use long-term weather and sunlight data from the U.S. National Renewable Energy Laboratory (NREL).</p>
+                                    <div class="season-toggle">
+                                        <button class="season-btn active" data-season="summer">Summer</button>
+                                        <button class="season-btn" data-season="winter">Winter</button>
+                                    </div>
+                                </div>
+                                <p class="slide-microcopy">This reflects historical averages—not optimistic projections.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="slide" data-slide="3">
+                            <div class="slide-content">
+                                <h3>A realistic system size</h3>
+                                <div class="slide-visual">
+                                    <svg viewBox="0 0 200 180" class="panel-diagram">
+                                        <!-- Roof outline -->
+                                        <rect x="30" y="40" width="140" height="100" 
+                                              fill="#f0fdf4" stroke="#2c5f2d" stroke-width="2" rx="4"/>
+                                        <!-- Solar panels (conservative placement) -->
+                                        <rect x="45" y="55" width="25" height="35" 
+                                              fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1" rx="2"/>
+                                        <rect x="75" y="55" width="25" height="35" 
+                                              fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1" rx="2"/>
+                                        <rect x="105" y="55" width="25" height="35" 
+                                              fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1" rx="2"/>
+                                        <rect x="45" y="95" width="25" height="35" 
+                                              fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1" rx="2"/>
+                                        <rect x="75" y="95" width="25" height="35" 
+                                              fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1" rx="2"/>
+                                        <rect x="105" y="95" width="25" height="35" 
+                                              fill="#1a3d1b" stroke="#2c5f2d" stroke-width="1" rx="2"/>
+                                        <!-- Empty space indicator -->
+                                        <text x="150" y="100" font-size="10" fill="#6b7280" 
+                                              font-style="italic">Empty space</text>
+                                    </svg>
+                                </div>
+                                <div class="slide-body">
+                                    <p>Not every roof can support a large system—and that's okay.</p>
+                                    <p>We estimate:</p>
+                                    <ul>
+                                        <li>How many panels your roof can reasonably support</li>
+                                        <li>A system size that avoids overpromising production</li>
+                                    </ul>
+                                </div>
+                                <p class="slide-microcopy">We don't assume full roof coverage or ideal layouts.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 4 -->
+                        <div class="slide" data-slide="4">
+                            <div class="slide-content">
+                                <h3>Costs and savings, locally grounded</h3>
+                                <div class="slide-visual">
+                                    <svg viewBox="0 0 200 180" class="cost-diagram">
+                                        <!-- Dollar sign -->
+                                        <text x="60" y="90" font-size="48" fill="#2c5f2d" 
+                                              font-weight="600">$</text>
+                                        <!-- Arrow -->
+                                        <path d="M 110 80 L 140 80" stroke="#d97706" 
+                                              stroke-width="3" marker-end="url(#arrowhead)"/>
+                                        <defs>
+                                            <marker id="arrowhead" markerWidth="10" markerHeight="10" 
+                                                    refX="9" refY="3" orient="auto">
+                                                <polygon points="0 0, 10 3, 0 6" fill="#d97706"/>
+                                            </marker>
+                                        </defs>
+                                        <!-- Utility bill icon -->
+                                        <rect x="145" y="60" width="35" height="45" 
+                                              fill="white" stroke="#2c5f2d" stroke-width="2" rx="2"/>
+                                        <line x1="150" y1="70" x2="175" y2="70" 
+                                              stroke="#6b7280" stroke-width="1.5"/>
+                                        <line x1="150" y1="78" x2="175" y2="78" 
+                                              stroke="#6b7280" stroke-width="1.5"/>
+                                        <line x1="150" y1="86" x2="170" y2="86" 
+                                              stroke="#6b7280" stroke-width="1.5"/>
+                                        <!-- Range indicator -->
+                                        <rect x="50" y="130" width="100" height="12" 
+                                              fill="#f0fdf4" stroke="#2c5f2d" stroke-width="1" rx="6"/>
+                                        <rect x="60" y="132" width="60" height="8" 
+                                              fill="#2c5f2d" rx="4"/>
+                                    </svg>
+                                </div>
+                                <div class="slide-body">
+                                    <p>We combine your estimated production with:</p>
+                                    <ul>
+                                        <li>Recent installation costs in your region</li>
+                                        <li>Your utility's rate structure</li>
+                                        <li>Net metering policies where applicable</li>
+                                    </ul>
+                                    <p>This produces a range of possible outcomes, not a single number.</p>
+                                </div>
+                                <p class="slide-microcopy">Actual quotes can vary by installer and roof complexity.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 5 -->
+                        <div class="slide" data-slide="5">
+                            <div class="slide-content">
+                                <h3>A clear recommendation</h3>
+                                <div class="slide-visual">
+                                    <div class="recommendation-cards">
+                                        <div class="rec-card">
+                                            <div class="rec-title">Not Recommended</div>
+                                            <div class="rec-reason">Shading reduces production below economic viability</div>
+                                        </div>
+                                        <div class="rec-card highlighted">
+                                            <div class="rec-title">Moderately Recommended</div>
+                                            <div class="rec-reason">System will pay back in 12-15 years under current rates</div>
+                                        </div>
+                                        <div class="rec-card">
+                                            <div class="rec-title">Recommended</div>
+                                            <div class="rec-reason">Strong production with 7-9 year payback period</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slide-body">
+                                    <p>Based on all inputs, we provide a clear recommendation—and explain it.</p>
+                                    <p>Sometimes that means:</p>
+                                    <ul>
+                                        <li>Solar makes sense</li>
+                                        <li>Solar may work, but payback is long</li>
+                                        <li>Solar isn't worth it for your home</li>
+                                    </ul>
+                                </div>
+                                <p class="slide-microcopy">We don't sell systems or earn commissions—only assessments.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation controls -->
+                    <div class="slide-controls">
+                        <button class="slide-nav-btn prev-btn" disabled>← Back</button>
+                        <div class="progress-dots">
+                            <span class="dot active" data-slide="1"></span>
+                            <span class="dot" data-slide="2"></span>
+                            <span class="dot" data-slide="3"></span>
+                            <span class="dot" data-slide="4"></span>
+                            <span class="dot" data-slide="5"></span>
+                        </div>
+                        <button class="slide-nav-btn next-btn">Next →</button>
+                    </div>
+
+                    <div class="walkthrough-footer">
+                        <p>This process is the same for every home. No adjustments. No sales incentives.</p>
+                        <a href="methodology.html" class="methodology-cta">View full methodology</a>
+                    </div>
+                </div>
             </div>
         </section>
+
+        <script>
+            // Slideshow functionality
+            let currentSlide = 1;
+            const totalSlides = 5;
+
+            function showSlide(slideNum) {
+                document.querySelectorAll('.slide').forEach(slide => {
+                    slide.classList.remove('active');
+                });
+                document.querySelectorAll('.dot').forEach(dot => {
+                    dot.classList.remove('active');
+                });
+
+                const targetSlide = document.querySelector(`.slide[data-slide="${slideNum}"]`);
+                const targetDot = document.querySelector(`.dot[data-slide="${slideNum}"]`);
+                
+                if (targetSlide) targetSlide.classList.add('active');
+                if (targetDot) targetDot.classList.add('active');
+
+                // Update button states
+                document.querySelector('.prev-btn').disabled = slideNum === 1;
+                document.querySelector('.next-btn').disabled = slideNum === totalSlides;
+                
+                currentSlide = slideNum;
+            }
+
+            // Navigation buttons
+            document.querySelector('.next-btn').addEventListener('click', () => {
+                if (currentSlide < totalSlides) {
+                    showSlide(currentSlide + 1);
+                }
+            });
+
+            document.querySelector('.prev-btn').addEventListener('click', () => {
+                if (currentSlide > 1) {
+                    showSlide(currentSlide - 1);
+                }
+            });
+
+            // Progress dots
+            document.querySelectorAll('.dot').forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    const slideNum = parseInt(e.target.dataset.slide);
+                    showSlide(slideNum);
+                });
+            });
+
+            // Season toggle (Slide 2)
+            document.querySelectorAll('.season-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.season-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    
+                    const season = e.target.dataset.season;
+                    const summerPath = document.querySelector('.summer-path');
+                    const winterPath = document.querySelector('.winter-path');
+                    
+                    if (season === 'summer') {
+                        summerPath.style.opacity = '0.8';
+                        winterPath.style.opacity = '0';
+                    } else {
+                        summerPath.style.opacity = '0';
+                        winterPath.style.opacity = '0.8';
+                    }
+                });
+            });
+        </script>
 
         <section class="limitations">
             <div class="container">
@@ -100,6 +381,20 @@
                     <li>Equipment degradation rates differing from manufacturer specifications</li>
                 </ul>
                 <p>This report provides a feasibility assessment, not a guarantee of outcomes.</p>
+            </div>
+        </section>
+
+        <section class="alternatives">
+            <div class="container">
+                <h2>Even if solar isn't right for you</h2>
+                <p>When solar doesn't make financial sense, other energy actions may still be worth looking into. We do not provide these services, but you may want to consider:</p>
+                <ul>
+                    <li>Home energy audit to identify efficiency improvements</li>
+                    <li>Insulation upgrades that reduce heating and cooling costs</li>
+                    <li>LED lighting conversion and smart thermostat installation</li>
+                    <li>Electric vehicle charging rate optimization if applicable</li>
+                    <li>Community solar programs that don't require roof installation</li>
+                </ul>
             </div>
         </section>
 
@@ -117,6 +412,7 @@
             <p>KnowYourSolar | Independent solar feasibility assessment</p>
             <p class="version">Site v0.3 | Methodology last updated: January 2026</p>
             <p class="footer-links">
+                <a href="about.html">About</a> | 
                 <a href="independence.html">Independence Charter</a> | 
                 <a href="methodology.html">Methodology</a> | 
                 <a href="privacy.html">Privacy</a>
