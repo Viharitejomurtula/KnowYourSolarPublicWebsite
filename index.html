@@ -725,7 +725,7 @@
     selectedFiles.forEach(f => formData.append('files', f));
     try {
       progressFill.style.width = '55%';
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
+      const res = await fetch('https://knowyoursolarapp.onrender.com/api/upload', { method: 'POST', body: formData });
       progressFill.style.width = '100%';
       if (res.ok) {
         showStatus('success', 'Documents received. Your analysis report will be delivered to your email within 24 hours.');
