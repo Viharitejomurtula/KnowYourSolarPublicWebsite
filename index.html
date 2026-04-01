@@ -791,13 +791,24 @@
   // ─── CHECK SESSION ON PAGE LOAD ──────────────────────────────────
   // Supabase auto-handles the OAuth callback — it reads the URL hash
   // and sets the session automatically when the user returns from Google
-  sb.auth.onAuthStateChange((event, session) => {
-    if (session?.user) {
-      setLoggedIn(session.user);
-    } else {
-      setLoggedOut();
-    }
-  });
+  // ─── CHECK SESSION ON PAGE LOAD ──────────────────────────────────
+// Explicitly check for existing session first (handles OAuth redirect)
+sb.auth.getSession().then(({ data: { session } }) => {
+  if (session?.user) {
+    setLoggedIn(session.user);
+  } else {
+    setLoggedOut();
+  }
+});
+
+// Also listen for future auth changes
+sb.auth.onAuthStateChange((event, session) => {
+  if (session?.user) {
+    setLoggedIn(session.user);
+  } else {
+    setLoggedOut();
+  }
+});
 
   // ─── SCROLL REVEAL ───────────────────────────────────────────────
   const reveals = document.querySelectorAll('.reveal');
