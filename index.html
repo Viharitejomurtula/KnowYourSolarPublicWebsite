@@ -579,7 +579,7 @@
     <a href="#upload" class="btn-primary">Upload Documents</a>
     <a href="#how" class="btn-ghost">See How It Works</a>
   </div>
-  <div class="hero-scroll">Scroll</div>
+
 </section>
 
 <!-- DIVIDER -->
@@ -746,7 +746,7 @@
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ─── SUPABASE INIT ───────────────────────────────────────────────
   const SUPABASE_URL = 'https://itsxaaeaqedqybarheud.supabase.co';
-  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_fPa2oq5xRgCTrHgXshDTTg_ZL7xdy12'; // sb_publishable_...
+  const SUPABASE_PUBLISHABLE_KEY = 'YOUR_PUBLISHABLE_KEY_HERE'; // sb_publishable_...
   const { createClient } = supabase;
   const sb = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
@@ -766,14 +766,14 @@
   }
 
   function setLoggedIn(user) {
-    // Nav: hide CTA, show avatar + name + sign out
     document.getElementById('navCta').style.display = 'none';
     document.getElementById('navUser').style.display = 'flex';
     document.getElementById('navAvatar').src = user.user_metadata?.avatar_url || '';
     document.getElementById('navUserName').textContent = user.user_metadata?.full_name || user.email;
-    // Upload widget: hide lock, show dropzone
     document.getElementById('uploadLocked').style.display = 'none';
     document.getElementById('uploadUnlocked').style.display = 'block';
+    // Bind dropzone events now that it's visible
+    initDropzone();
   }
 
   function setLoggedOut() {
@@ -791,24 +791,13 @@
   // ─── CHECK SESSION ON PAGE LOAD ──────────────────────────────────
   // Supabase auto-handles the OAuth callback — it reads the URL hash
   // and sets the session automatically when the user returns from Google
-  // ─── CHECK SESSION ON PAGE LOAD ──────────────────────────────────
-// Explicitly check for existing session first (handles OAuth redirect)
-sb.auth.getSession().then(({ data: { session } }) => {
-  if (session?.user) {
-    setLoggedIn(session.user);
-  } else {
-    setLoggedOut();
-  }
-});
-
-// Also listen for future auth changes
-sb.auth.onAuthStateChange((event, session) => {
-  if (session?.user) {
-    setLoggedIn(session.user);
-  } else {
-    setLoggedOut();
-  }
-});
+  sb.auth.onAuthStateChange((event, session) => {
+    if (session?.user) {
+      setLoggedIn(session.user);
+    } else {
+      setLoggedOut();
+    }
+  });
 
   // ─── SCROLL REVEAL ───────────────────────────────────────────────
   const reveals = document.querySelectorAll('.reveal');
@@ -819,17 +808,17 @@ sb.auth.onAuthStateChange((event, session) => {
 
   // ─── FILE UPLOAD LOGIC ───────────────────────────────────────────
   let selectedFiles = [];
+  let dropzoneInitialized = false;
 
-  const dropzone = document.getElementById('dropzone');
-  const fileList = document.getElementById('fileList');
-  const uploadBtn = document.getElementById('uploadBtn');
-  const statusMsg = document.getElementById('statusMsg');
-  const progressWrap = document.getElementById('progressWrap');
-  const progressFill = document.getElementById('progressFill');
+  function initDropzone() {
+    if (dropzoneInitialized) return;
+    dropzoneInitialized = true;
 
-  dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
-  dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
-  dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
+    const dropzone = document.getElementById('dropzone');
+    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+    dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
+  }
 
   function handleFiles(files) {
     for (const f of files) {
@@ -842,6 +831,10 @@ sb.auth.onAuthStateChange((event, session) => {
   function getExt(name) { return name.split('.').pop().toUpperCase().slice(0,4); }
   function fmtSize(b) { return b < 1024*1024 ? (b/1024).toFixed(1)+' KB' : (b/1024/1024).toFixed(1)+' MB'; }
   function renderList() {
+    const fileList = document.getElementById('fileList');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const statusMsg = document.getElementById('statusMsg');
+    if (!fileList) return;
     fileList.innerHTML = '';
     selectedFiles.forEach((f, i) => {
       const row = document.createElement('div');
@@ -849,14 +842,20 @@ sb.auth.onAuthStateChange((event, session) => {
       row.innerHTML = `<span class="file-ext">${getExt(f.name)}</span><span class="file-name">${f.name}</span><span class="file-size">${fmtSize(f.size)}</span><button class="file-remove" onclick="removeFile(${i})">✕</button>`;
       fileList.appendChild(row);
     });
-    uploadBtn.disabled = selectedFiles.length === 0;
-    if (!selectedFiles.length) statusMsg.className = 'status-msg';
+    if (uploadBtn) uploadBtn.disabled = selectedFiles.length === 0;
+    if (!selectedFiles.length && statusMsg) statusMsg.className = 'status-msg';
   }
   function removeFile(i) { selectedFiles.splice(i,1); renderList(); }
-  function showStatus(type, msg) { statusMsg.className = 'status-msg ' + type; statusMsg.textContent = msg; }
+  function showStatus(type, msg) {
+    const statusMsg = document.getElementById('statusMsg');
+    if (statusMsg) { statusMsg.className = 'status-msg ' + type; statusMsg.textContent = msg; }
+  }
 
   async function uploadFiles() {
     if (!selectedFiles.length) return;
+    const uploadBtn = document.getElementById('uploadBtn');
+    const progressWrap = document.getElementById('progressWrap');
+    const progressFill = document.getElementById('progressFill');
     uploadBtn.disabled = true;
     progressWrap.style.display = 'block';
     progressFill.style.width = '10%';
