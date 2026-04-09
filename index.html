@@ -746,7 +746,7 @@
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ─── SUPABASE INIT ───────────────────────────────────────────────
   const SUPABASE_URL = 'https://itsxaaeaqedqybarheud.supabase.co';
-  const SUPABASE_PUBLISHABLE_KEY = 'YOUR_PUBLISHABLE_KEY_HERE'; // sb_publishable_...
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_fPa2oq5xRgCTrHgXshDTTg_ZL7xdy12';
   const { createClient } = supabase;
   const sb = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
@@ -789,15 +789,32 @@
   }
 
   // ─── CHECK SESSION ON PAGE LOAD ──────────────────────────────────
-  // Supabase auto-handles the OAuth callback — it reads the URL hash
-  // and sets the session automatically when the user returns from Google
+  let authResolved = false;
+
+  // Primary handler — fires reliably after OAuth redirect completes
   sb.auth.onAuthStateChange((event, session) => {
+    authResolved = true;
     if (session?.user) {
       setLoggedIn(session.user);
     } else {
       setLoggedOut();
     }
   });
+
+  // Fallback — only runs if onAuthStateChange hasn't fired after 1.5s
+  // Covers the case where user already has an active session from before
+  setTimeout(() => {
+    if (!authResolved) {
+      sb.auth.getSession().then(({ data: { session } }) => {
+        authResolved = true;
+        if (session?.user) {
+          setLoggedIn(session.user);
+        } else {
+          setLoggedOut();
+        }
+      });
+    }
+  }, 1500);
 
   // ─── SCROLL REVEAL ───────────────────────────────────────────────
   const reveals = document.querySelectorAll('.reveal');
