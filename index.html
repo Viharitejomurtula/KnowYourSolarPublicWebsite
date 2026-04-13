@@ -749,6 +749,13 @@
   const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_fPa2oq5xRgCTrHgXshDTTg_ZL7xdy12';
   const { createClient } = supabase;
   const sb = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+  // TEMP DEBUG — remove after fixing
+  sb.auth.onAuthStateChange((event, session) => {
+    console.log('AUTH EVENT:', event, '| USER:', session?.user?.email || 'none');
+  });
+  sb.auth.getSession().then(({ data: { session } }) => {
+    console.log('CURRENT SESSION:', session?.user?.email || 'none');
+  });
 
   // ─── AUTH FUNCTIONS ──────────────────────────────────────────────
   async function signInWithGoogle() {
