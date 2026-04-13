@@ -791,18 +791,22 @@
   // ─── CHECK SESSION ON PAGE LOAD ──────────────────────────────────
   let authResolved = false;
 
-  // Primary handler — fires reliably after OAuth redirect completes
   sb.auth.onAuthStateChange((event, session) => {
-    authResolved = true;
-    if (session?.user) {
-      setLoggedIn(session.user);
-    } else {
+    // Only act on these specific events — ignore SIGNED_OUT during OAuth flow
+    if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION') {
+      authResolved = true;
+      if (session?.user) {
+        setLoggedIn(session.user);
+        return;
+      }
+    }
+    if (event === 'SIGNED_OUT') {
+      authResolved = true;
       setLoggedOut();
     }
   });
 
-  // Fallback — only runs if onAuthStateChange hasn't fired after 1.5s
-  // Covers the case where user already has an active session from before
+  // Fallback — check session directly after 2s if nothing has resolved yet
   setTimeout(() => {
     if (!authResolved) {
       sb.auth.getSession().then(({ data: { session } }) => {
@@ -814,7 +818,7 @@
         }
       });
     }
-  }, 1500);
+  }, 2000);
 
   // ─── SCROLL REVEAL ───────────────────────────────────────────────
   const reveals = document.querySelectorAll('.reveal');
