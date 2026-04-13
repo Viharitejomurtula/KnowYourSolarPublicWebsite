@@ -759,13 +759,13 @@
 
   // ─── AUTH FUNCTIONS ──────────────────────────────────────────────
   async function signInWithGoogle() {
-    await sb.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: window.location.href  // returns user to same page after login
-      }
-    });
-  }
+  await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: 'https://viharitejomurtula.github.io/KnowYourSolarPublicWebsite/'
+    }
+  });
+}
 
   async function signOut() {
     await sb.auth.signOut();
