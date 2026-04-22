@@ -3,28 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KnowYourSolar — Independent Solar Intelligence for Commercial Properties</title>
+<title>KnowYourSolar — Independent Commercial Solar Feasibility Reports</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root {
     --navy: #0a0f1e;
     --navy-mid: #111827;
-    --navy-light: #1a2540;
     --amber: #c9933a;
     --amber-light: #e8b96a;
-    --amber-pale: #f5e4c0;
-    --cream: #f8f4ec;
     --white: #ffffff;
     --text-muted: #8a9ab8;
     --text-mid: #bdc8e0;
     --border: rgba(201,147,58,0.18);
-    --border-light: rgba(255,255,255,0.07);
+    --border-light: rgba(255,255,255,0.08);
+    --success: #7cb85c;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -32,167 +29,157 @@
     background: var(--navy);
     color: var(--white);
     overflow-x: hidden;
+    line-height: 1.5;
   }
 
-  /* Grain overlay */
+  /* Subtle grain */
   body::before {
     content: '';
     position: fixed; inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 1; opacity: 0.35;
+    pointer-events: none; z-index: 1; opacity: 0.3;
   }
 
   /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 1.5rem 4rem;
+    padding: 1.25rem 4rem;
     border-bottom: 1px solid var(--border-light);
     background: rgba(10,15,30,0.85);
     backdrop-filter: blur(16px);
   }
   .nav-logo {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem; font-weight: 300;
-    letter-spacing: 0.08em;
-    color: var(--white);
-    text-decoration: none;
+    font-size: 1.35rem; font-weight: 300;
+    letter-spacing: 0.06em;
+    color: var(--white); text-decoration: none;
   }
   .nav-logo span { color: var(--amber); }
-  .nav-links {
-    display: flex; gap: 2.5rem; list-style: none;
-  }
-  .nav-links a {
-    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--text-muted); text-decoration: none;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--amber-light); }
+
   .nav-cta {
-    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
     background: transparent;
     border: 1px solid var(--amber);
     color: var(--amber);
-    padding: 0.55rem 1.4rem;
-    cursor: none;
+    padding: 0.55rem 1.3rem;
+    cursor: pointer;
     transition: background 0.2s, color 0.2s;
+    text-decoration: none;
+    font-family: inherit;
   }
   .nav-cta:hover { background: var(--amber); color: var(--navy); }
+
+  .nav-user {
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .nav-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid var(--amber); object-fit: cover;
+  }
+  .nav-user-name {
+    font-size: 0.78rem; color: var(--text-mid);
+  }
+  .nav-signout {
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    background: transparent; border: 1px solid var(--border-light);
+    color: var(--text-muted); padding: 0.45rem 0.9rem; cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .nav-signout:hover { border-color: var(--amber); color: var(--amber); }
 
   /* HERO */
   .hero {
     min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 0 4rem 6rem;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6rem 4rem 4rem;
     position: relative;
     overflow: hidden;
   }
   .hero-bg {
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(201,147,58,0.07) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(26,37,64,0.8) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 45% at 75% 35%, rgba(201,147,58,0.08) 0%, transparent 70%),
       linear-gradient(160deg, #0a0f1e 0%, #111827 60%, #0e1730 100%);
   }
-  /* Decorative lines */
-  .hero-lines {
-    position: absolute; top: 0; right: 0; width: 55%; height: 100%;
-    overflow: hidden;
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 900px;
   }
-  .hero-lines svg { position: absolute; right: -10%; top: 10%; opacity: 0.12; }
 
   .hero-tag {
-    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--amber);
-    margin-bottom: 1.5rem;
-    position: relative; z-index: 2;
-    animation: fadeUp 1s ease both;
+    margin-bottom: 1.75rem;
+    display: flex; align-items: center; gap: 0.75rem;
+    animation: fadeUp 0.9s ease both;
   }
   .hero-tag::before {
-    content: ''; display: inline-block;
+    content: ''; display: block;
     width: 2.5rem; height: 1px;
-    background: var(--amber); margin-right: 0.75rem;
-    vertical-align: middle;
+    background: var(--amber);
   }
 
   .hero h1 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    font-size: clamp(3rem, 6.5vw, 5.75rem);
     font-weight: 300;
     line-height: 1.05;
     letter-spacing: -0.01em;
-    position: relative; z-index: 2;
-    animation: fadeUp 1s 0.15s ease both;
+    animation: fadeUp 0.9s 0.1s ease both;
   }
   .hero h1 em { font-style: italic; color: var(--amber-light); }
 
   .hero-sub {
-    font-size: 1rem; font-weight: 300;
-    color: var(--text-mid); max-width: 520px;
-    line-height: 1.7; margin-top: 1.5rem;
-    position: relative; z-index: 2;
-    animation: fadeUp 1s 0.3s ease both;
+    font-size: 1.05rem; font-weight: 300;
+    color: var(--text-mid); max-width: 560px;
+    line-height: 1.75; margin-top: 1.75rem;
+    animation: fadeUp 0.9s 0.2s ease both;
   }
 
   .hero-actions {
-    display: flex; gap: 1rem; margin-top: 2.5rem;
-    position: relative; z-index: 2;
-    animation: fadeUp 1s 0.45s ease both;
+    display: flex; gap: 1rem; margin-top: 2.75rem;
+    animation: fadeUp 0.9s 0.3s ease both;
   }
   .btn-primary {
     font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
     background: var(--amber); color: var(--navy);
-    border: none; padding: 0.85rem 2rem;
-    cursor: none; font-weight: 500;
+    border: none; padding: 0.95rem 2rem;
+    cursor: pointer; font-weight: 500;
     transition: background 0.2s, transform 0.15s;
     text-decoration: none; display: inline-block;
+    font-family: inherit;
   }
   .btn-primary:hover { background: var(--amber-light); transform: translateY(-1px); }
   .btn-ghost {
     font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
     background: transparent; color: var(--text-mid);
-    border: 1px solid var(--border-light); padding: 0.85rem 2rem;
-    cursor: none;
+    border: 1px solid var(--border-light); padding: 0.95rem 2rem;
+    cursor: pointer;
     transition: border-color 0.2s, color 0.2s;
     text-decoration: none; display: inline-block;
+    font-family: inherit;
   }
   .btn-ghost:hover { border-color: var(--amber); color: var(--amber); }
-
-  .hero-scroll {
-    position: absolute; right: 4rem; bottom: 6rem;
-    writing-mode: vertical-rl;
-    font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--text-muted); z-index: 2;
-    animation: fadeUp 1s 0.6s ease both;
-  }
-  .hero-scroll::after {
-    content: ''; display: block;
-    width: 1px; height: 3rem;
-    background: var(--text-muted); margin: 0.75rem auto 0;
-    animation: scrollLine 2s 1s ease-in-out infinite;
-  }
 
   /* DIVIDER */
   .divider {
     display: flex; align-items: center; gap: 1.5rem;
-    padding: 0 4rem; margin: 0;
+    padding: 0 4rem;
   }
   .divider-line { flex: 1; height: 1px; background: var(--border); }
   .divider-mark {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem; color: var(--amber); opacity: 0.6;
+    font-size: 1rem; color: var(--amber); opacity: 0.6;
   }
 
-  /* PILLARS */
-  .pillars {
+  /* WHAT YOU GET */
+  .what {
     padding: 7rem 4rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-  }
-  .pillar-intro {
-    padding-right: 5rem;
-    display: flex; flex-direction: column; justify-content: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
   }
   .section-tag {
     font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
@@ -200,138 +187,88 @@
   }
   .section-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-size: clamp(2rem, 3.8vw, 3rem);
     font-weight: 300; line-height: 1.15;
+    max-width: 720px; margin: 0 auto;
   }
   .section-title em { font-style: italic; color: var(--amber-light); }
   .section-body {
-    font-size: 0.92rem; font-weight: 300; color: var(--text-mid);
-    line-height: 1.8; margin-top: 1.2rem; max-width: 440px;
+    font-size: 1rem; font-weight: 300; color: var(--text-mid);
+    line-height: 1.8; margin: 1.75rem auto 0; max-width: 600px;
   }
 
-  .pillar-cards {
-    display: flex; flex-direction: column; gap: 1px;
-    border-left: 1px solid var(--border);
-    padding-left: 4rem;
+  .report-preview {
+    margin-top: 4rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    text-align: left;
   }
-  .pillar-card {
-    padding: 2rem 0;
-    border-bottom: 1px solid var(--border);
+  .report-item {
+    padding: 1.75rem 0;
+    border-top: 1px solid var(--border);
   }
-  .pillar-card:first-child { padding-top: 0; }
-  .pillar-card:last-child { border-bottom: none; }
-  .pillar-num {
+  .report-item-num {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.75rem; color: var(--amber);
-    letter-spacing: 0.15em; margin-bottom: 0.6rem;
+    font-size: 0.72rem; color: var(--amber);
+    letter-spacing: 0.18em; margin-bottom: 0.75rem;
   }
-  .pillar-card h3 {
-    font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem;
+  .report-item h3 {
+    font-size: 0.98rem; font-weight: 500; margin-bottom: 0.5rem;
   }
-  .pillar-card p {
+  .report-item p {
     font-size: 0.85rem; color: var(--text-muted);
     font-weight: 300; line-height: 1.7;
   }
 
-  /* INDEPENDENCE BANNER */
+  /* INDEPENDENCE */
   .independence {
     margin: 0 4rem;
     border: 1px solid var(--border);
-    padding: 3rem 3.5rem;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 3rem;
-    align-items: center;
+    padding: 3.5rem;
+    text-align: center;
     position: relative;
     overflow: hidden;
   }
   .independence::before {
     content: '';
     position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(201,147,58,0.04) 0%, transparent 60%);
+    background: linear-gradient(135deg, rgba(201,147,58,0.05) 0%, transparent 60%);
   }
-  .independence-icon {
+  .independence-mark {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 4rem; color: var(--amber);
-    opacity: 0.35; line-height: 1;
-    user-select: none;
-  }
-  .independence-text h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem; font-weight: 300;
-    margin-bottom: 0.75rem;
-  }
-  .independence-text p {
-    font-size: 0.88rem; color: var(--text-mid);
-    font-weight: 300; line-height: 1.8; max-width: 600px;
-  }
-  .independence-badges {
-    display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.25rem;
-  }
-  .badge {
-    font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
-    border: 1px solid var(--amber);
-    color: var(--amber); padding: 0.35rem 0.85rem;
-  }
-
-  /* HOW IT WORKS */
-  .how {
-    padding: 7rem 4rem;
-  }
-  .how-header {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 4rem; margin-bottom: 4rem;
-    padding-bottom: 3rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .how-header p {
-    font-size: 0.9rem; color: var(--text-muted);
-    font-weight: 300; line-height: 1.8;
-    align-self: end;
-  }
-  .steps {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-  }
-  .step {
-    padding: 2.5rem;
-    border: 1px solid var(--border);
+    font-size: 2.5rem; color: var(--amber);
+    opacity: 0.45; line-height: 1;
+    margin-bottom: 1.5rem;
     position: relative;
-    transition: background 0.3s;
   }
-  .step:hover { background: rgba(201,147,58,0.03); }
-  .step-num {
+  .independence h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 3.5rem; font-weight: 300;
-    color: var(--amber); opacity: 0.2;
-    line-height: 1; margin-bottom: 1rem;
+    font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+    font-weight: 300;
+    max-width: 640px; margin: 0 auto 1rem;
+    position: relative;
+    line-height: 1.25;
   }
-  .step h3 { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.6rem; }
-  .step p { font-size: 0.83rem; color: var(--text-muted); font-weight: 300; line-height: 1.7; }
+  .independence h2 em { font-style: italic; color: var(--amber-light); }
+  .independence p {
+    font-size: 0.95rem; color: var(--text-mid);
+    font-weight: 300; line-height: 1.8;
+    max-width: 620px; margin: 0 auto;
+    position: relative;
+  }
 
   /* UPLOAD SECTION */
   .upload-section {
-    padding: 7rem 4rem;
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 5rem; align-items: start;
+    padding: 7rem 4rem 6rem;
+    max-width: 720px;
+    margin: 0 auto;
   }
-  .upload-info { position: sticky; top: 7rem; }
-  .upload-info .section-body { max-width: 380px; }
-  .upload-features {
-    margin-top: 2.5rem;
-    display: flex; flex-direction: column; gap: 1rem;
+  .upload-header {
+    text-align: center;
+    margin-bottom: 3rem;
   }
-  .upload-feat {
-    display: flex; align-items: flex-start; gap: 1rem;
-  }
-  .feat-dot {
-    width: 5px; height: 5px; border-radius: 50%;
-    background: var(--amber); flex-shrink: 0; margin-top: 0.45rem;
-  }
-  .feat-text { font-size: 0.83rem; color: var(--text-muted); font-weight: 300; line-height: 1.6; }
-  .feat-text strong { color: var(--text-mid); font-weight: 500; }
 
-  /* Upload widget */
   .upload-widget {
     border: 1px solid var(--border);
     padding: 2.5rem;
@@ -339,16 +276,18 @@
   }
   .upload-widget h3 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.3rem; font-weight: 300;
+    font-size: 1.35rem; font-weight: 300;
     margin-bottom: 0.5rem;
   }
-  .upload-widget p {
-    font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.75rem; line-height: 1.6;
+  .upload-widget .hint {
+    font-size: 0.82rem; color: var(--text-muted);
+    margin-bottom: 1.75rem; line-height: 1.6;
   }
+
   .dropzone {
     border: 1px dashed rgba(201,147,58,0.3);
-    padding: 2.5rem;
-    text-align: center; cursor: none;
+    padding: 2.75rem 2rem;
+    text-align: center; cursor: pointer;
     transition: border-color 0.2s, background 0.2s;
     position: relative;
   }
@@ -359,19 +298,19 @@
     position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
   }
   .dropzone-icon {
-    width: 40px; height: 40px;
+    width: 42px; height: 42px;
     border: 1px solid rgba(201,147,58,0.4);
     display: flex; align-items: center; justify-content: center;
     margin: 0 auto 1rem;
   }
   .dropzone-icon svg { width: 18px; height: 18px; stroke: var(--amber); fill: none; }
-  .dropzone p.dz-main {
-    font-size: 0.85rem; color: var(--text-mid);
-    margin-bottom: 0.3rem;
+  .dropzone .dz-main {
+    font-size: 0.9rem; color: var(--text-mid);
+    margin-bottom: 0.35rem;
   }
-  .dropzone p.dz-sub {
+  .dropzone .dz-sub {
     font-size: 0.72rem; color: var(--text-muted);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
   }
 
   .file-list { margin-top: 1rem; display: flex; flex-direction: column; gap: 6px; }
@@ -389,52 +328,118 @@
   .file-name { font-size: 0.8rem; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-mid); }
   .file-size { font-size: 0.72rem; color: var(--text-muted); flex-shrink: 0; }
   .file-remove {
-    background: none; border: none; cursor: none;
+    background: none; border: none; cursor: pointer;
     color: var(--text-muted); font-size: 14px; padding: 2px 4px;
     transition: color 0.15s;
+    font-family: inherit;
   }
   .file-remove:hover { color: #e24b4b; }
 
-  .progress-wrap { height: 2px; background: rgba(255,255,255,0.06); margin-top: 1rem; display: none; }
+  .progress-wrap { height: 2px; background: rgba(255,255,255,0.06); margin-top: 1rem; display: none; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--amber); width: 0%; transition: width 0.3s; }
 
   .upload-btn {
-    margin-top: 1rem; width: 100%;
-    padding: 0.85rem;
-    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    margin-top: 1.25rem; width: 100%;
+    padding: 0.9rem;
+    font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase;
     background: var(--amber); color: var(--navy);
-    border: none; cursor: none; font-weight: 500;
+    border: none; cursor: pointer; font-weight: 500;
     transition: background 0.2s;
+    font-family: inherit;
   }
-  .upload-btn:hover { background: var(--amber-light); }
+  .upload-btn:hover:not(:disabled) { background: var(--amber-light); }
   .upload-btn:disabled { opacity: 0.35; cursor: default; }
 
+  /* Clean inline status for loading/error only */
   .status-msg {
-    margin-top: 0.75rem; font-size: 0.78rem; padding: 10px 14px; display: none;
-    border-left: 2px solid;
+    margin-top: 0.9rem; font-size: 0.8rem; padding: 10px 14px;
+    border-left: 2px solid; display: none;
   }
-  .status-msg.success { display: block; border-color: #3b6d11; color: #97c459; background: rgba(59,109,17,0.1); }
   .status-msg.error { display: block; border-color: #a32d2d; color: #e24b4a; background: rgba(163,45,45,0.1); }
   .status-msg.loading { display: block; border-color: var(--amber); color: var(--amber-light); background: rgba(201,147,58,0.07); }
 
-  .accepted-types {
-    margin-top: 1rem;
-    display: flex; gap: 0.5rem; flex-wrap: wrap;
+  /* SUCCESS STATE — big, unmistakable */
+  .upload-success {
+    display: none;
+    text-align: center;
+    padding: 2.5rem 1rem 1rem;
+    animation: fadeUp 0.6s ease both;
   }
-  .type-tag {
-    font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--text-muted); border: 1px solid var(--border-light); padding: 3px 8px;
+  .upload-success.visible { display: block; }
+  .success-check {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 1.5px solid var(--success);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    background: rgba(124,184,92,0.08);
+    animation: popIn 0.5s 0.1s ease both;
   }
+  .success-check svg {
+    width: 28px; height: 28px;
+    stroke: var(--success); stroke-width: 2;
+    fill: none;
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    animation: drawCheck 0.5s 0.35s ease forwards;
+  }
+  .upload-success h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 300;
+    margin-bottom: 0.75rem;
+    color: var(--white);
+  }
+  .upload-success p {
+    font-size: 0.92rem; color: var(--text-mid);
+    line-height: 1.7; max-width: 420px; margin: 0 auto 1.75rem;
+    font-weight: 300;
+  }
+  .success-again {
+    font-size: 0.73rem; letter-spacing: 0.15em; text-transform: uppercase;
+    background: transparent; border: 1px solid var(--border);
+    color: var(--amber); padding: 0.7rem 1.5rem;
+    cursor: pointer; font-family: inherit;
+    transition: background 0.2s, color 0.2s;
+  }
+  .success-again:hover { background: var(--amber); color: var(--navy); }
+
+  /* LOCKED STATE */
+  .upload-locked {
+    text-align: center; padding: 2.5rem 1.5rem;
+    border: 1px dashed rgba(201,147,58,0.2);
+  }
+  .lock-icon {
+    width: 44px; height: 44px;
+    border: 1px solid rgba(201,147,58,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.25rem;
+  }
+  .lock-icon svg { width: 18px; height: 18px; stroke: var(--amber); fill: none; }
+  .upload-locked p {
+    font-size: 0.88rem; color: var(--text-muted);
+    margin-bottom: 1.5rem; line-height: 1.6;
+  }
+  .google-btn {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    background: var(--white); color: #1a1a1a;
+    border: none; padding: 0.75rem 1.5rem;
+    font-size: 0.85rem; font-weight: 500; cursor: pointer;
+    transition: opacity 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .google-btn:hover { opacity: 0.9; }
+  .google-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
 
   /* FOOTER */
   footer {
-    padding: 3rem 4rem;
+    padding: 2.5rem 4rem;
     display: flex; align-items: center; justify-content: space-between;
     border-top: 1px solid var(--border-light);
+    flex-wrap: wrap; gap: 1rem;
   }
   .footer-logo {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem; font-weight: 300; color: var(--text-muted);
+    font-size: 1.05rem; font-weight: 300; color: var(--text-muted);
   }
   .footer-logo span { color: var(--amber); }
   .footer-tagline {
@@ -449,76 +454,30 @@
 
   /* ANIMATIONS */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  @keyframes scrollLine {
-    0%, 100% { opacity: 0.3; transform: scaleY(1); transform-origin: top; }
-    50% { opacity: 1; transform: scaleY(1.2); }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes drawCheck {
+    to { stroke-dashoffset: 0; }
   }
 
-  /* Scroll reveal */
-  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s ease, transform 0.8s ease; }
   .reveal.visible { opacity: 1; transform: none; }
 
-  /* AUTH */
-  .nav-user {
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .nav-avatar {
-    width: 28px; height: 28px; border-radius: 50%;
-    border: 1px solid var(--amber); object-fit: cover;
-  }
-  .nav-user-name {
-    font-size: 0.78rem; color: var(--text-mid); letter-spacing: 0.04em;
-  }
-  .nav-signout {
-    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
-    background: transparent; border: 1px solid var(--border-light);
-    color: var(--text-muted); padding: 0.45rem 1rem; cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .nav-signout:hover { border-color: var(--amber); color: var(--amber); }
-
-  .upload-locked {
-    text-align: center; padding: 3rem 2rem;
-    border: 1px dashed rgba(201,147,58,0.2);
-  }
-  .lock-icon {
-    width: 44px; height: 44px;
-    border: 1px solid rgba(201,147,58,0.3);
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 1.25rem;
-  }
-  .lock-icon svg { width: 18px; height: 18px; stroke: var(--amber); fill: none; }
-  .upload-locked p {
-    font-size: 0.83rem; color: var(--text-muted);
-    margin-bottom: 1.5rem; line-height: 1.6;
-  }
-  .google-btn {
-    display: inline-flex; align-items: center; gap: 0.75rem;
-    background: var(--white); color: #1a1a1a;
-    border: none; padding: 0.75rem 1.5rem;
-    font-size: 0.82rem; font-weight: 500; cursor: pointer;
-    transition: opacity 0.2s;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .google-btn:hover { opacity: 0.9; }
-  .google-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
-
   @media (max-width: 900px) {
-    nav { padding: 1.25rem 1.5rem; }
-    .nav-links { display: none; }
-    .hero { padding: 0 1.5rem 4rem; }
-    .pillars, .upload-section, .how-header { grid-template-columns: 1fr; gap: 2.5rem; }
-    .pillar-cards { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 2.5rem; }
-    .pillar-intro { padding-right: 0; }
-    .steps { grid-template-columns: 1fr; }
-    .independence { grid-template-columns: 1fr; gap: 1.5rem; margin: 0 1.5rem; }
-    .how, .pillars, .upload-section { padding: 4rem 1.5rem; }
-    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+    nav { padding: 1rem 1.5rem; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    .what, .upload-section { padding: 4.5rem 1.5rem; }
+    .report-preview { grid-template-columns: 1fr; gap: 0; }
+    .independence { padding: 2.5rem 1.75rem; margin: 0 1.5rem; }
+    .upload-widget { padding: 1.75rem; }
+    footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
     .divider { padding: 0 1.5rem; }
-    .upload-info { position: static; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
   }
 </style>
 </head>
@@ -527,11 +486,6 @@
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">Know<span>Your</span>Solar</a>
-  <ul class="nav-links">
-    <li><a href="#how">How It Works</a></li>
-    <li><a href="#independence">Independence</a></li>
-    <li><a href="#upload">Get Analysis</a></li>
-  </ul>
   <a href="#upload" class="nav-cta" id="navCta">Start Analysis</a>
   <div class="nav-user" id="navUser" style="display:none;">
     <img class="nav-avatar" id="navAvatar" src="" alt="">
@@ -543,43 +497,15 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
-  <div class="hero-lines">
-    <svg width="500" height="700" viewBox="0 0 500 700">
-      <defs>
-        <radialGradient id="rg" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#c9933a" stop-opacity="0.6"/>
-          <stop offset="100%" stop-color="#c9933a" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <!-- Solar panel grid lines -->
-      <g stroke="#c9933a" stroke-width="0.5" fill="none">
-        <line x1="50" y1="100" x2="450" y2="100"/>
-        <line x1="50" y1="200" x2="450" y2="200"/>
-        <line x1="50" y1="300" x2="450" y2="300"/>
-        <line x1="50" y1="400" x2="450" y2="400"/>
-        <line x1="50" y1="500" x2="450" y2="500"/>
-        <line x1="50" y1="600" x2="450" y2="600"/>
-        <line x1="50" y1="100" x2="50" y2="600"/>
-        <line x1="150" y1="100" x2="150" y2="600"/>
-        <line x1="250" y1="100" x2="250" y2="600"/>
-        <line x1="350" y1="100" x2="350" y2="600"/>
-        <line x1="450" y1="100" x2="450" y2="600"/>
-      </g>
-      <!-- Highlight cells -->
-      <rect x="150" y="200" width="100" height="100" fill="url(#rg)" rx="2"/>
-      <rect x="250" y="300" width="100" height="100" fill="url(#rg)" rx="2"/>
-      <rect x="350" y="100" width="100" height="100" fill="url(#rg)" rx="2"/>
-    </svg>
+  <div class="hero-content">
+    <div class="hero-tag">Commercial Solar Feasibility</div>
+    <h1>Know whether solar is<br>worth it — <em>before</em> you sign.</h1>
+    <p class="hero-sub">Independent feasibility reports for commercial property owners. One clear answer: yes, no, or not yet — with the numbers to back it up.</p>
+    <div class="hero-actions">
+      <a href="#upload" class="btn-primary">Get Your Report</a>
+      <a href="#what" class="btn-ghost">What's Inside</a>
+    </div>
   </div>
-
-  <div class="hero-tag">Commercial Solar Intelligence</div>
-  <h1>Know what the<br>numbers <em>actually</em><br>mean.</h1>
-  <p class="hero-sub">Independent feasibility analysis for commercial property owners — before you talk to a vendor, or after you've received a proposal.</p>
-  <div class="hero-actions">
-    <a href="#upload" class="btn-primary">Upload Documents</a>
-    <a href="#how" class="btn-ghost">See How It Works</a>
-  </div>
-
 </section>
 
 <!-- DIVIDER -->
@@ -589,113 +515,60 @@
   <div class="divider-line"></div>
 </div>
 
-<!-- PILLARS -->
-<section class="pillars">
-  <div class="pillar-intro reveal">
-    <div class="section-tag">Why KnowYourSolar</div>
-    <h2 class="section-title">The tool that works<br>for <em>you</em>, not the installer</h2>
-    <p class="section-body">Commercial solar decisions involve significant capital. We give property owners the independent intelligence they need — at every stage of the process.</p>
+<!-- WHAT YOU GET -->
+<section class="what" id="what">
+  <div class="reveal">
+    <div class="section-tag">The Report</div>
+    <h2 class="section-title">One document. A <em>clear</em> decision.</h2>
+    <p class="section-body">We produce a single deliverable: a feasibility report that tells you whether solar makes financial sense for your property — and why.</p>
   </div>
-  <div class="pillar-cards">
-    <div class="pillar-card reveal">
-      <div class="pillar-num">01</div>
-      <h3>Pre-Vendor Screening</h3>
-      <p>Upload your utility bills and property documents before a single sales call. Know your true solar potential, expected ROI, and realistic payback period — with no installer spin.</p>
+
+  <div class="report-preview">
+    <div class="report-item reveal">
+      <div class="report-item-num">01</div>
+      <h3>The Recommendation</h3>
+      <p>A clear yes, no, or wait — with the reasoning laid out plainly, not buried in fine print.</p>
     </div>
-    <div class="pillar-card reveal" style="transition-delay:0.1s">
-      <div class="pillar-num">02</div>
-      <h3>Post-Proposal Sanity Check</h3>
-      <p>Received a quote? Upload it alongside your own documents. We flag inflated estimates, unrealistic production claims, and hidden costs — before you sign anything.</p>
+    <div class="report-item reveal" style="transition-delay:0.1s">
+      <div class="report-item-num">02</div>
+      <h3>The Numbers</h3>
+      <p>Expected payback period, IRR, and lifetime savings — modeled from your actual utility data.</p>
     </div>
-    <div class="pillar-card reveal" style="transition-delay:0.2s">
-      <div class="pillar-num">03</div>
-      <h3>Owner-First Decision Making</h3>
-      <p>We are not a lead generation service. We have no installer partnerships. Our only output is a clear, data-driven report that helps you make the right decision for your property.</p>
+    <div class="report-item reveal" style="transition-delay:0.2s">
+      <div class="report-item-num">03</div>
+      <h3>The Caveats</h3>
+      <p>What could change the math: roof condition, tax position, rate schedules, and risk factors.</p>
     </div>
   </div>
 </section>
 
-<!-- INDEPENDENCE BANNER -->
-<div class="independence reveal" id="independence">
-  <div class="independence-icon">⊘</div>
-  <div class="independence-text">
-    <h2>100% independent. Zero installer relationships.</h2>
-    <p>Every solar analysis platform you've seen online generates revenue by referring you to installation companies. KnowYourSolar generates revenue only from you — the property owner. That means our analysis is uncompromisingly objective. We will tell you when solar doesn't make sense for your building, because our business depends on your trust, not on closing a deal for someone else.</p>
-    <div class="independence-badges">
-      <div class="badge">No installer referrals</div>
-      <div class="badge">No affiliate commissions</div>
-      <div class="badge">No sales agenda</div>
-      <div class="badge">Flat-fee analysis</div>
-    </div>
-  </div>
+<!-- INDEPENDENCE -->
+<div class="independence reveal">
+  <div class="independence-mark">⊘</div>
+  <h2>No installers. No referrals. <em>No agenda.</em></h2>
+  <p>KnowYourSolar earns revenue only from you. We have no installer partnerships and no affiliate commissions, which means we'll tell you when solar doesn't make sense — because our business depends on your trust, not someone else's close.</p>
 </div>
 
-<!-- HOW IT WORKS -->
-<section class="how" id="how">
-  <div class="how-header reveal">
-    <div>
-      <div class="section-tag">Process</div>
-      <h2 class="section-title">From documents<br>to <em>decisions</em></h2>
-    </div>
-    <p>Upload your utility data and any vendor proposals you've received. Our system processes them against real satellite irradiance data, local incentive databases, and financial modeling to produce a report you can act on.</p>
-  </div>
-  <div class="steps">
-    <div class="step reveal">
-      <div class="step-num">01</div>
-      <h3>Upload Your Documents</h3>
-      <p>Utility bills, existing energy audits, vendor proposals, lease agreements — upload anything relevant to your property's energy profile.</p>
-    </div>
-    <div class="step reveal" style="transition-delay:0.1s">
-      <div class="step-num">02</div>
-      <h3>We Run the Analysis</h3>
-      <p>Our system cross-references your documents with irradiance data, local utility rates, federal and state incentives, and comparable commercial installations.</p>
-    </div>
-    <div class="step reveal" style="transition-delay:0.2s">
-      <div class="step-num">03</div>
-      <h3>Receive Your Report</h3>
-      <p>A clear, print-ready feasibility report lands in your inbox. No sales call required. No lead form. Just the numbers, explained plainly.</p>
-    </div>
-  </div>
-</section>
-
-<!-- UPLOAD SECTION -->
+<!-- UPLOAD -->
 <section class="upload-section" id="upload">
-  <div class="upload-info">
-    <div class="section-tag">Get Your Analysis</div>
-    <h2 class="section-title">Upload your<br><em>documents</em></h2>
-    <p class="section-body">Start with whatever you have. Utility bills are the most useful starting point. Vendor proposals are equally valuable — we'll tell you what's accurate and what isn't.</p>
-    <div class="upload-features">
-      <div class="upload-feat">
-        <div class="feat-dot"></div>
-        <p class="feat-text"><strong>Utility bills</strong> — 12 months preferred, but even 3 months gives us a strong baseline</p>
-      </div>
-      <div class="upload-feat">
-        <div class="feat-dot"></div>
-        <p class="feat-text"><strong>Vendor proposals</strong> — upload any quote you've received for an independent reality check</p>
-      </div>
-      <div class="upload-feat">
-        <div class="feat-dot"></div>
-        <p class="feat-text"><strong>Property documents</strong> — roof specs, energy audits, or existing equipment schedules</p>
-      </div>
-      <div class="upload-feat">
-        <div class="feat-dot"></div>
-        <p class="feat-text"><strong>Lease or ownership docs</strong> — relevant for NNN leases or properties with complex ownership structures</p>
-      </div>
-    </div>
+  <div class="upload-header reveal">
+    <div class="section-tag">Begin</div>
+    <h2 class="section-title">Upload your <em>utility bills</em></h2>
+    <p class="section-body">12 months of utility bills is ideal. Even 3 months gives us enough to build a solid baseline. Your report arrives within 24 hours.</p>
   </div>
 
   <div class="upload-widget reveal">
-    <h3>Submit for Analysis</h3>
-    <p>Accepted formats: PDF, DOCX, TXT, CSV — up to 10 MB per file. Your documents are handled with strict confidentiality.</p>
+    <h3>Submit Your Documents</h3>
+    <p class="hint">PDF, DOCX, TXT, or CSV — up to 10 MB per file. Handled with strict confidentiality.</p>
 
-    <!-- LOCKED STATE — shown when not logged in -->
+    <!-- LOCKED -->
     <div id="uploadLocked" class="upload-locked">
       <div class="lock-icon">
         <svg viewBox="0 0 24 24" stroke-width="1.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
         </svg>
       </div>
-      <p>Sign in to upload your documents and receive your independent solar analysis.</p>
+      <p>Sign in to upload your documents and receive your feasibility report.</p>
       <button class="google-btn" onclick="signInWithGoogle()">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -707,31 +580,38 @@
       </button>
     </div>
 
-    <!-- UNLOCKED STATE — shown when logged in -->
+    <!-- UNLOCKED -->
     <div id="uploadUnlocked" style="display:none;">
-      <div class="dropzone" id="dropzone">
-        <input type="file" id="fileInput" multiple accept=".pdf,.docx,.txt,.csv" onchange="handleFiles(this.files)">
-        <div class="dropzone-icon">
-          <svg viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
-          </svg>
+      <!-- Active upload form -->
+      <div id="uploadForm">
+        <div class="dropzone" id="dropzone">
+          <input type="file" id="fileInput" multiple accept=".pdf,.docx,.txt,.csv" onchange="handleFiles(this.files)">
+          <div class="dropzone-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
+            </svg>
+          </div>
+          <p class="dz-main">Drag documents here or click to browse</p>
+          <p class="dz-sub">PDF · DOCX · TXT · CSV</p>
         </div>
-        <p class="dz-main">Drag documents here or click to browse</p>
-        <p class="dz-sub">PDF · DOCX · TXT · CSV</p>
+
+        <div class="file-list" id="fileList"></div>
+        <div class="progress-wrap" id="progressWrap"><div class="progress-fill" id="progressFill"></div></div>
+        <button class="upload-btn" id="uploadBtn" onclick="uploadFiles()" disabled>Submit Documents</button>
+        <div class="status-msg" id="statusMsg"></div>
       </div>
 
-      <div class="file-list" id="fileList"></div>
-      <div class="progress-wrap" id="progressWrap"><div class="progress-fill" id="progressFill"></div></div>
-      <button class="upload-btn" id="uploadBtn" onclick="uploadFiles()" disabled>Submit Documents</button>
-      <div class="status-msg" id="statusMsg"></div>
-    </div>
-
-    <div class="accepted-types">
-      <span class="type-tag">Utility bills</span>
-      <span class="type-tag">Vendor proposals</span>
-      <span class="type-tag">Energy audits</span>
-      <span class="type-tag">Roof specs</span>
-      <span class="type-tag">Lease docs</span>
+      <!-- Success state -->
+      <div class="upload-success" id="uploadSuccess">
+        <div class="success-check">
+          <svg viewBox="0 0 24 24">
+            <polyline points="5,12 10,17 19,8"/>
+          </svg>
+        </div>
+        <h4>Upload Successful</h4>
+        <p>Your documents have been received. Your feasibility report will be delivered to your email within 24 hours.</p>
+        <button class="success-again" onclick="resetUpload()">Upload More Documents</button>
+      </div>
     </div>
   </div>
 </section>
@@ -739,11 +619,11 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">Know<span>Your</span>Solar</div>
-  <div class="footer-tagline">Independent Solar Intelligence for Commercial Property</div>
-  <div class="footer-contact">Questions? <a href="/cdn-cgi/l/email-protection#e28a878e8e8da2898c8d959b8d9790918d8e8390cc818d8f"><span class="__cf_email__" data-cfemail="a7cfc2cbcbc8e7ccc9c8d0dec8d2d5d4c8cbc6d589c4c8ca">[email&#160;protected]</span></a></div>
+  <div class="footer-tagline">Independent Commercial Solar Feasibility</div>
+  <div class="footer-contact">Questions? <a href="mailto:vihari5tejo@gmail.com">vihari5tejo@gmail.com</a></div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // ─── SUPABASE INIT ───────────────────────────────────────────────
   const SUPABASE_URL = 'https://itsxaaeaqedqybarheud.supabase.co';
   const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_fPa2oq5xRgCTrHgXshDTTg_ZL7xdy12';
@@ -757,13 +637,11 @@
     }
   });
 
-  // ─── AUTH FUNCTIONS ──────────────────────────────────────────────
+  // ─── AUTH ────────────────────────────────────────────────────────
   async function signInWithGoogle() {
     await sb.auth.signInWithOAuth({
       provider: 'google',
-      options: {
-        redirectTo: window.location.href  // returns user to same page after login
-      }
+      options: { redirectTo: window.location.href }
     });
   }
 
@@ -779,50 +657,31 @@
     document.getElementById('navUserName').textContent = user.user_metadata?.full_name || user.email;
     document.getElementById('uploadLocked').style.display = 'none';
     document.getElementById('uploadUnlocked').style.display = 'block';
-    // Bind dropzone events now that it's visible
     initDropzone();
   }
 
   function setLoggedOut() {
-    // Nav: show CTA, hide user info
     document.getElementById('navCta').style.display = 'inline-block';
     document.getElementById('navUser').style.display = 'none';
-    // Upload widget: show lock, hide dropzone
     document.getElementById('uploadLocked').style.display = 'block';
     document.getElementById('uploadUnlocked').style.display = 'none';
-    // Clear any selected files
     selectedFiles = [];
     if (document.getElementById('fileList')) renderList();
   }
 
-  // ─── CHECK SESSION ON PAGE LOAD ──────────────────────────────────
   let authResolved = false;
-
   sb.auth.onAuthStateChange((event, session) => {
-    // Only act on these specific events — ignore SIGNED_OUT during OAuth flow
     if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION') {
       authResolved = true;
-      if (session?.user) {
-        setLoggedIn(session.user);
-        return;
-      }
+      if (session?.user) { setLoggedIn(session.user); return; }
     }
-    if (event === 'SIGNED_OUT') {
-      authResolved = true;
-      setLoggedOut();
-    }
+    if (event === 'SIGNED_OUT') { authResolved = true; setLoggedOut(); }
   });
-
-  // Fallback — check session directly after 2s if nothing has resolved yet
   setTimeout(() => {
     if (!authResolved) {
       sb.auth.getSession().then(({ data: { session } }) => {
         authResolved = true;
-        if (session?.user) {
-          setLoggedIn(session.user);
-        } else {
-          setLoggedOut();
-        }
+        if (session?.user) setLoggedIn(session.user); else setLoggedOut();
       });
     }
   }, 2000);
@@ -834,15 +693,15 @@
   }, { threshold: 0.12 });
   reveals.forEach(r => observer.observe(r));
 
-  // ─── FILE UPLOAD LOGIC ───────────────────────────────────────────
+  // ─── UPLOAD ──────────────────────────────────────────────────────
   let selectedFiles = [];
   let dropzoneInitialized = false;
 
   function initDropzone() {
     if (dropzoneInitialized) return;
     dropzoneInitialized = true;
-
     const dropzone = document.getElementById('dropzone');
+    if (!dropzone) return;
     dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
     dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
     dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
@@ -879,6 +738,21 @@
     if (statusMsg) { statusMsg.className = 'status-msg ' + type; statusMsg.textContent = msg; }
   }
 
+  function showSuccess() {
+    document.getElementById('uploadForm').style.display = 'none';
+    const successEl = document.getElementById('uploadSuccess');
+    successEl.classList.add('visible');
+  }
+
+  function resetUpload() {
+    document.getElementById('uploadSuccess').classList.remove('visible');
+    document.getElementById('uploadForm').style.display = 'block';
+    selectedFiles = [];
+    renderList();
+    const statusMsg = document.getElementById('statusMsg');
+    if (statusMsg) { statusMsg.className = 'status-msg'; statusMsg.textContent = ''; }
+  }
+
   async function uploadFiles() {
     if (!selectedFiles.length) return;
     const uploadBtn = document.getElementById('uploadBtn');
@@ -887,7 +761,7 @@
     uploadBtn.disabled = true;
     progressWrap.style.display = 'block';
     progressFill.style.width = '10%';
-    showStatus('loading', 'Submitting ' + selectedFiles.length + ' document(s) for analysis...');
+    showStatus('loading', 'Submitting ' + selectedFiles.length + ' document(s)...');
     const formData = new FormData();
     selectedFiles.forEach(f => formData.append('files', f));
     try {
@@ -895,16 +769,24 @@
       const res = await fetch('https://knowyoursolarapp.onrender.com/api/upload', { method: 'POST', body: formData });
       progressFill.style.width = '100%';
       if (res.ok) {
-        showStatus('success', 'Documents received. Your analysis report will be delivered to your email within 24 hours.');
-        selectedFiles = []; renderList();
+        // Small delay so the progress bar finishes visually before switching views
+        setTimeout(() => {
+          progressWrap.style.display = 'none';
+          progressFill.style.width = '0%';
+          showSuccess();
+        }, 400);
       } else {
         showStatus('error', 'Submission failed: ' + res.statusText + '. Please email documents directly to vihari5tejo@gmail.com');
+        uploadBtn.disabled = false;
+        setTimeout(() => { progressWrap.style.display='none'; progressFill.style.width='0%'; }, 1000);
       }
     } catch (e) {
       showStatus('error', 'Network error. Please email documents directly to vihari5tejo@gmail.com');
-    } finally {
       uploadBtn.disabled = false;
-      setTimeout(() => { progressWrap.style.display='none'; progressFill.style.width='0%'; }, 1200);
+      setTimeout(() => { progressWrap.style.display='none'; progressFill.style.width='0%'; }, 1000);
     }
   }
 </script>
+
+</body>
+</html>
