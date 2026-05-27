@@ -20,9 +20,10 @@ export function useAuth() {
   }, [])
 
   async function signInWithGoogle() {
+    const redirectTo = window.location.origin + import.meta.env.BASE_URL
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: window.location.href },
+      options: { redirectTo },
     })
   }
 
