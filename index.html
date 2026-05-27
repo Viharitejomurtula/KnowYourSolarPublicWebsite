@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KnowYourSolar — Independent Commercial Solar Feasibility Reports</title>
+    <!--
+      Content-Security-Policy
+      • script-src 'self'          — only our bundled JS, no CDN scripts or inline eval
+      • style-src 'self' + Fonts   — Google Fonts stylesheet allowed, no other external CSS
+      • font-src  gstatic          — font files from Google CDN
+      • img-src   https:           — Google profile avatars and any future images
+      • connect-src                — Supabase auth + our upload API only
+      • object-src / base-uri      — block Flash, base-tag injection
+      Note: frame-ancestors (clickjacking) requires a server header; meta CSP cannot enforce it.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self';
+        style-src 'self' https://fonts.googleapis.com;
+        font-src 'self' https://fonts.gstatic.com;
+        img-src 'self' data: https:;
+        connect-src 'self'
+          https://itsxaaeaqedqybarheud.supabase.co
+          https://knowyoursolarapp.onrender.com;
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+      "
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/KnowYourSolarPublicWebsite/assets/index-Bamr8-if.js"></script>
+    <link rel="stylesheet" crossorigin href="/KnowYourSolarPublicWebsite/assets/index-D--Hj34z.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
