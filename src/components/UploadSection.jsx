@@ -1,6 +1,6 @@
-import { useReducer, useRef, useCallback } from 'react'
+import { useReducer, useRef, useCallback, useState } from 'react'
 import { useReveal } from '../hooks/useReveal.js'
-import { validatePdf, fmtSize } from '../utils/fileValidation.js'
+import { validatePdf, fmtSize, MAX_FILE_COUNT } from '../utils/fileValidation.js'
 
 const UPLOAD_URL = 'https://knowyoursolarapp.onrender.com/api/upload'
 
@@ -38,6 +38,7 @@ function reducer(state, action) {
 export default function UploadSection({ auth }) {
   const { user, signInWithGoogle, getToken } = auth
   const [state, dispatch] = useReducer(reducer, initial)
+  const [retryDisabled, setRetryDisabled] = useState(false)
   const dropzoneRef = useRef(null)
   const fileInputRef = useRef(null)
   const headerRef = useReveal()
@@ -49,12 +50,21 @@ export default function UploadSection({ auth }) {
     )
     if (!incoming.length) return
 
+    const slots = MAX_FILE_COUNT - state.files.length
+    if (slots <= 0) {
+      dispatch({ type: 'ERROR', error: `Maximum ${MAX_FILE_COUNT} files allowed.` })
+      return
+    }
+
     const valid = []
     const errors = []
-    for (const f of incoming) {
+    for (const f of incoming.slice(0, slots)) {
       const result = await validatePdf(f)
       if (result.ok) valid.push(f)
       else errors.push(result.error)
+    }
+    if (incoming.length > slots) {
+      errors.push(`Only ${slots} more file${slots === 1 ? '' : 's'} can be added (limit is ${MAX_FILE_COUNT}).`)
     }
 
     if (valid.length) {
@@ -78,12 +88,18 @@ export default function UploadSection({ auth }) {
     handleFiles(e.dataTransfer.files)
   }
 
+  function dispatchError(message) {
+    dispatch({ type: 'ERROR', error: message })
+    setRetryDisabled(true)
+    setTimeout(() => setRetryDisabled(false), 5000)
+  }
+
   async function handleUpload() {
-    if (!state.files.length || !user) return
+    if (!state.files.length || !user || retryDisabled) return
 
     const token = await getToken()
     if (!token) {
-      dispatch({ type: 'ERROR', error: 'Your session has expired. Please sign in again.' })
+      dispatchError('Your session has expired. Please sign in again.')
       return
     }
 
@@ -104,16 +120,10 @@ export default function UploadSection({ auth }) {
       if (res.ok) {
         setTimeout(() => dispatch({ type: 'SUCCESS' }), 400)
       } else {
-        dispatch({
-          type: 'ERROR',
-          error: `Submission failed (${res.status}). Please email documents directly to vihari5tejo@gmail.com`,
-        })
+        dispatchError(`Submission failed (${res.status}). Please email documents directly to vihari5tejo@gmail.com`)
       }
     } catch {
-      dispatch({
-        type: 'ERROR',
-        error: 'Network error. Please email documents directly to vihari5tejo@gmail.com',
-      })
+      dispatchError('Network error. Please email documents directly to vihari5tejo@gmail.com')
     }
   }
 
@@ -149,6 +159,7 @@ export default function UploadSection({ auth }) {
             onFiles={handleFiles}
             onRemove={(i) => dispatch({ type: 'REMOVE', index: i })}
             onUpload={handleUpload}
+          retryDisabled={retryDisabled}
           />
         )}
       </div>
@@ -197,7 +208,7 @@ function SuccessState({ onReset }) {
   )
 }
 
-function UploadForm({ state, dropzoneRef, fileInputRef, onDragOver, onDragLeave, onDrop, onFiles, onRemove, onUpload }) {
+function UploadForm({ state, dropzoneRef, fileInputRef, onDragOver, onDragLeave, onDrop, onFiles, onRemove, onUpload, retryDisabled }) {
   const { files, uploading, progress, error } = state
 
   return (
@@ -259,9 +270,9 @@ function UploadForm({ state, dropzoneRef, fileInputRef, onDragOver, onDragLeave,
       <button
         className="upload-btn"
         onClick={onUpload}
-        disabled={files.length === 0 || uploading}
+        disabled={files.length === 0 || uploading || retryDisabled}
       >
-        {uploading ? 'Submitting…' : 'Submit Documents'}
+        {uploading ? 'Submitting…' : retryDisabled ? 'Please wait…' : 'Submit Documents'}
       </button>
 
       {error && (
